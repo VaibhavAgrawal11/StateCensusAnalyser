@@ -30,8 +30,8 @@ public class StateCensusAnalyser {
                 System.out.println("Population: " + csvStateCensus.getPopulation());
                 count++;
             }
-        } catch (IOException e) {
-            throw new StateCensusAnalyserException(e.getMessage(),StateCensusAnalyserException.ExceptionType.INPUT_OUTPUT_OPERATION_FALIED);
+        }catch (IOException e) {
+            throw new StateCensusAnalyserException(e.getMessage(),StateCensusAnalyserException.ExceptionType.INPUT_OUTPUT_OPERATION_FAILED);
         }
         return count;
     }
