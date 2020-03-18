@@ -4,6 +4,8 @@ import com.bridgelabz.exception.StateCensusAnalyserException;
 import com.bridgelabz.model.CSVStateCensus;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -34,5 +36,15 @@ public class StateCensusAnalyser {
             throw new StateCensusAnalyserException(e.getMessage(),StateCensusAnalyserException.ExceptionType.INPUT_OUTPUT_OPERATION_FALIED);
         }
         return count;
+    }
+    public void getFileExtension(File file) throws StateCensusAnalyserException {
+        boolean result = false;
+        String fileName = file.getName();
+        if(fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
+            result=fileName.substring(fileName.lastIndexOf(".")+1).equals("csv");
+            System.out.println(fileName.substring(fileName.lastIndexOf(".")+1));
+        }
+        if (result==false)
+            throw new StateCensusAnalyserException("Wrong file type",StateCensusAnalyserException.ExceptionType.WRONG_FILE_TYPE);
     }
 }
