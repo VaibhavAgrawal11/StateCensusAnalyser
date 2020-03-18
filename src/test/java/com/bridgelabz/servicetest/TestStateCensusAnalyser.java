@@ -49,4 +49,14 @@ public class TestStateCensusAnalyser {
         }
     }
 
+    @Test
+    public void givenStateCensusAnalyserFile_WhenIncorrectHeader_ReturnCustomException() {
+        try {
+            STATE_CENSUS_CSV_DATA = "./src/test/resources/StateCensusDataHeaderCopy.csv";
+            censusAnalyser.loadCensusCSVData(STATE_CENSUS_CSV_DATA);
+        } catch (StateCensusAnalyserException e) {
+            Assert.assertEquals("Number of data fields does not match number of headers.", e.getMessage());
+        }
+    }
+
 }
