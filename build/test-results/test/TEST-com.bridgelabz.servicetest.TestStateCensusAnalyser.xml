@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.bridgelabz.servicetest.TestStateCensusAnalyser" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-03-18T08:12:07" hostname="2020-PC" time="0.009">
+<testsuite name="com.bridgelabz.servicetest.TestStateCensusAnalyser" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-03-18T12:04:21" hostname="2020-PC" time="0.007">
   <properties/>
-  <testcase name="givenStateCensusAnalyserFile_WhenIncorrectType_ReturnCustomException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.009"/>
+  <testcase name="givenStateCensusAnalyserFile_WhenIncorrectType_ReturnCustomException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.007"/>
   <system-out><![CDATA[pdf
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
