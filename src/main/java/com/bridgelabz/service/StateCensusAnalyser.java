@@ -5,12 +5,11 @@ import com.bridgelabz.model.CSVStateCensus;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.regex.Pattern;
 
 public class StateCensusAnalyser {
     int count = 0;
@@ -44,9 +43,29 @@ public class StateCensusAnalyser {
         String fileName = file.getName();
         if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
             result = fileName.substring(fileName.lastIndexOf(".") + 1).equals("csv");
-            System.out.println(fileName.substring(fileName.lastIndexOf(".") + 1));
         }
         if (!result)
             throw new StateCensusAnalyserException("Wrong file type", StateCensusAnalyserException.ExceptionType.WRONG_FILE_TYPE);
     }
+
+    public void checkDelimiter(File file) throws StateCensusAnalyserException {
+        Pattern pattern = Pattern.compile("^[\\w ]*,[\\w ]*,[\\w ]*,[\\w ]*");
+        BufferedReader br = null;
+        boolean delimiterResult = true;
+        try {
+            br = new BufferedReader(new FileReader(file));
+            String line;
+            while ((line = br.readLine()) != null) {
+                delimiterResult = pattern.matcher(line).matches();
+                if (!delimiterResult) {
+                    throw new StateCensusAnalyserException("Invalid Delimiter found", StateCensusAnalyserException.ExceptionType.INVALID_DELIMITER);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
+

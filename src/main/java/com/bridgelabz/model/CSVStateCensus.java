@@ -11,10 +11,10 @@ public class CSVStateCensus {
     @CsvBindByName(column = "population")
     private String Population;
 
-    @CsvBindByName(column = "area")
+    @CsvBindByName
     private String AreaInSqKm;
 
-    @CsvBindByName(column = "density")
+    @CsvBindByName
     private String DensityPerSqKm;
 
     public void setState(String state) {
