@@ -15,6 +15,6 @@ public class StateCensusAnalyserException extends Exception {
     }
 
     public enum ExceptionType {
-        No_SUCH_FILE_EXIST, INPUT_OUTPUT_OPERATION_FAILED, WRONG_FILE_TYPE,INVALID_DELIMITER;
+        NO_SUCH_FILE_EXIST, INPUT_OUTPUT_OPERATION_FAILED, WRONG_FILE_TYPE, INVALID_DELIMITER, INVALID_HEADER_COUNT
     }
 }

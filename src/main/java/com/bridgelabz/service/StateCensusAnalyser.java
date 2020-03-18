@@ -34,6 +34,8 @@ public class StateCensusAnalyser {
             }
         } catch (IOException e) {
             throw new StateCensusAnalyserException(e.getMessage(), StateCensusAnalyserException.ExceptionType.INPUT_OUTPUT_OPERATION_FAILED);
+        }catch (RuntimeException e){
+            throw new StateCensusAnalyserException("Number of data fields does not match number of headers.",StateCensusAnalyserException.ExceptionType.INVALID_HEADER_COUNT);
         }
         return count;
     }
@@ -62,9 +64,9 @@ public class StateCensusAnalyser {
                 }
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            throw new StateCensusAnalyserException(e.getMessage(), StateCensusAnalyserException.ExceptionType.NO_SUCH_FILE_EXIST);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new StateCensusAnalyserException(e.getMessage(), StateCensusAnalyserException.ExceptionType.INPUT_OUTPUT_OPERATION_FAILED);
         }
     }
 }
