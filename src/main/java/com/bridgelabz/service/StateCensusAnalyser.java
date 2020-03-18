@@ -14,12 +14,13 @@ import java.util.Iterator;
 
 public class StateCensusAnalyser {
     int count = 0;
+
     //READING AND PRINTING DATA FROM CSV FILE
     public int loadCensusCSVData(String getPath) throws StateCensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(getPath))
         ) {
             //WITH THE HELP OF POJO FILE ITERATING AND PRINTING THE  CONTENTS OF THE CSV FILE.
-            CsvToBean<CSVStateCensus> csvStateCensuses = new CsvToBeanBuilder(reader)
+            CsvToBean csvStateCensuses = new CsvToBeanBuilder(reader)
                     .withType(CSVStateCensus.class)
                     .withIgnoreLeadingWhiteSpace(true)
                     .build();
@@ -32,19 +33,20 @@ public class StateCensusAnalyser {
                 System.out.println("Population: " + csvStateCensus.getPopulation());
                 count++;
             }
-        }catch (IOException e) {
-            throw new StateCensusAnalyserException(e.getMessage(),StateCensusAnalyserException.ExceptionType.INPUT_OUTPUT_OPERATION_FAILED);
+        } catch (IOException e) {
+            throw new StateCensusAnalyserException(e.getMessage(), StateCensusAnalyserException.ExceptionType.INPUT_OUTPUT_OPERATION_FAILED);
         }
         return count;
     }
+
     public void getFileExtension(File file) throws StateCensusAnalyserException {
         boolean result = false;
         String fileName = file.getName();
-        if(fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
-            result=fileName.substring(fileName.lastIndexOf(".")+1).equals("csv");
-            System.out.println(fileName.substring(fileName.lastIndexOf(".")+1));
+        if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
+            result = fileName.substring(fileName.lastIndexOf(".") + 1).equals("csv");
+            System.out.println(fileName.substring(fileName.lastIndexOf(".") + 1));
         }
-        if (result==false)
-            throw new StateCensusAnalyserException("Wrong file type",StateCensusAnalyserException.ExceptionType.WRONG_FILE_TYPE);
+        if (!result)
+            throw new StateCensusAnalyserException("Wrong file type", StateCensusAnalyserException.ExceptionType.WRONG_FILE_TYPE);
     }
 }
