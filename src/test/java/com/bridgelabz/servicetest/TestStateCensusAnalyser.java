@@ -70,10 +70,21 @@ public class TestStateCensusAnalyser {
     @Test
     public void givenStateCodeCsvFile_WhenImproperFileName_ReturnsException() {
         try {
-            stateCensusCsvData = "./src/test/resources/EstateCode.csv";
-            censusAnalyser.loadCensusCSVData(stateCensusCsvData);
+            stateCodeCsvData = "./src/test/resources/EstateCode.csv";
+            censusAnalyser.loadCensusCSVData(stateCodeCsvData);
         } catch (StateCensusAnalyserException e) {
             Assert.assertEquals(StateCensusAnalyserException.ExceptionType.INPUT_OUTPUT_OPERATION_FAILED, e.type);
+        }
+    }
+
+    @Test
+    public void givenStateCodeCsvFile_WhenIncorrectType_ReturnCustomException() {
+        stateCodeCsvData = "./src/test/resources/StateCode.pdf";
+        try {
+            File fileExtension = new File(stateCodeCsvData);
+            censusAnalyser.getFileExtension(fileExtension);
+        } catch (StateCensusAnalyserException e) {
+            Assert.assertEquals(StateCensusAnalyserException.ExceptionType.WRONG_FILE_TYPE, e.type);
         }
     }
 }
