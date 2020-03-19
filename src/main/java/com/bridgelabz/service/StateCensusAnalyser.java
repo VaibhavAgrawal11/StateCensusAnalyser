@@ -3,8 +3,6 @@ package com.bridgelabz.service;
 import com.bridgelabz.exception.StateCensusAnalyserException;
 import com.bridgelabz.model.CSVStateCensus;
 import com.bridgelabz.model.CSVStateCode;
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -20,7 +18,7 @@ public class StateCensusAnalyser {
         try (Reader reader = Files.newBufferedReader(Paths.get(getPath))
         ) {
             Iterator<CSVStateCensus> csvStateCensusIterator;
-            csvStateCensusIterator = getCSVFileIterator(reader, CSVStateCensus.class);
+            csvStateCensusIterator = OpenCsv.getCSVFileIterator(reader, CSVStateCensus.class);
             CSVStateCensus csvStateCensus = null;
             count = getCount(csvStateCensusIterator, csvStateCensus);
         } catch (IOException e) {
@@ -38,7 +36,7 @@ public class StateCensusAnalyser {
         try (Reader reader = Files.newBufferedReader(Paths.get(getPath))
         ) {
             Iterator<CSVStateCode> csvStateCodeIterator;
-            csvStateCodeIterator = getCSVFileIterator(reader, CSVStateCode.class);
+            csvStateCodeIterator = OpenCsv.getCSVFileIterator(reader, CSVStateCode.class);
             CSVStateCode csvStateCode = null;
             count = getCount(csvStateCodeIterator, csvStateCode);
         } catch (IOException e) {
@@ -58,21 +56,6 @@ public class StateCensusAnalyser {
             count++;
         }
         return count;
-    }
-
-    //GENERIC METHOD FOR OPEN CSV TO READ AND ITERATE THE FILE
-    private <E> Iterator<E> getCSVFileIterator(Reader reader, Class<E> csvClass) throws StateCensusAnalyserException {
-        try {
-            CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
-            csvToBeanBuilder.withType(csvClass);
-            csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
-            CsvToBean<E> csvToBean = csvToBeanBuilder.build();
-            Iterator<E> censusCSVIterator = csvToBean.iterator();
-            return censusCSVIterator;
-        } catch (IllegalStateException e) {
-            throw new StateCensusAnalyserException(e.getMessage(),
-                    StateCensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
-        }
     }
 
     //METHOD TO CHECK FILE EXTENSION
