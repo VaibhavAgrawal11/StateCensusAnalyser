@@ -2,6 +2,7 @@ package com.bridgelabz.service;
 
 import com.bridgelabz.exception.StateCensusAnalyserException;
 import com.bridgelabz.model.CSVStateCensus;
+import com.bridgelabz.model.CSVStateCode;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
@@ -14,7 +15,7 @@ import java.util.regex.Pattern;
 public class StateCensusAnalyser {
     int count = 0;
 
-    //READING AND PRINTING DATA FROM CSV FILE
+    //READING AND PRINTING DATA FROM STATE CENSUS CSV FILE
     public int loadCensusCSVData(String getPath) throws StateCensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(getPath))
         ) {
@@ -26,16 +27,38 @@ public class StateCensusAnalyser {
             Iterator<CSVStateCensus> csvStateCensusIterator = csvStateCensuses.iterator();
             while (csvStateCensusIterator.hasNext()) {
                 CSVStateCensus csvStateCensus = csvStateCensusIterator.next();
-                System.out.println("State: " + csvStateCensus.getState());
-                System.out.println("Area: " + csvStateCensus.getAreaInSqKm());
-                System.out.println("Density: " + csvStateCensus.getDensityPerSqKm());
-                System.out.println("Population: " + csvStateCensus.getPopulation());
                 count++;
             }
         } catch (IOException e) {
-            throw new StateCensusAnalyserException(e.getMessage(), StateCensusAnalyserException.ExceptionType.INPUT_OUTPUT_OPERATION_FAILED);
+            throw new StateCensusAnalyserException(e.getMessage(),
+                    StateCensusAnalyserException.ExceptionType.INPUT_OUTPUT_OPERATION_FAILED);
         }catch (RuntimeException e){
-            throw new StateCensusAnalyserException("Number of data fields does not match number of headers.",StateCensusAnalyserException.ExceptionType.INVALID_HEADER_COUNT);
+            throw new StateCensusAnalyserException("Number of data fields does not match number of headers.",
+                    StateCensusAnalyserException.ExceptionType.INVALID_HEADER_COUNT);
+        }
+        return count;
+    }
+
+    //READING AND PRINTING DATA FROM STATE CODE CSV FILE
+    public int loadStateCodeData(String getPath) throws StateCensusAnalyserException {
+        try (Reader reader = Files.newBufferedReader(Paths.get(getPath))
+        ) {
+            //WITH THE HELP OF POJO FILE ITERATING AND PRINTING THE  CONTENTS OF THE CSV FILE.
+            CsvToBean csvStateCode = new CsvToBeanBuilder(reader)
+                    .withType(CSVStateCode.class)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .build();
+            Iterator<CSVStateCode> csvStateCodeIterator = csvStateCode.iterator();
+            while (csvStateCodeIterator.hasNext()) {
+                CSVStateCode csvStateCode1 = csvStateCodeIterator.next();
+                count++;
+            }
+        } catch (IOException e) {
+            throw new StateCensusAnalyserException(e.getMessage(),
+                    StateCensusAnalyserException.ExceptionType.INPUT_OUTPUT_OPERATION_FAILED);
+        }catch (RuntimeException e){
+            throw new StateCensusAnalyserException("Number of data fields does not match number of headers.",
+                    StateCensusAnalyserException.ExceptionType.INVALID_HEADER_COUNT);
         }
         return count;
     }
@@ -47,7 +70,8 @@ public class StateCensusAnalyser {
             result = fileName.substring(fileName.lastIndexOf(".") + 1).equals("csv");
         }
         if (!result)
-            throw new StateCensusAnalyserException("Wrong file type", StateCensusAnalyserException.ExceptionType.WRONG_FILE_TYPE);
+            throw new StateCensusAnalyserException("Wrong file type",
+                    StateCensusAnalyserException.ExceptionType.WRONG_FILE_TYPE);
     }
 
     public void checkDelimiter(File file) throws StateCensusAnalyserException {
@@ -60,7 +84,8 @@ public class StateCensusAnalyser {
             while ((line = br.readLine()) != null) {
                 delimiterResult = pattern.matcher(line).matches();
                 if (!delimiterResult) {
-                    throw new StateCensusAnalyserException("Invalid Delimiter found", StateCensusAnalyserException.ExceptionType.INVALID_DELIMITER);
+                    throw new StateCensusAnalyserException("Invalid Delimiter found",
+                            StateCensusAnalyserException.ExceptionType.INVALID_DELIMITER);
                 }
             }
         } catch (FileNotFoundException e) {
@@ -70,4 +95,3 @@ public class StateCensusAnalyser {
         }
     }
 }
-
