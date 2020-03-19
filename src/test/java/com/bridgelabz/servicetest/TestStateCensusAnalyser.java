@@ -98,4 +98,14 @@ public class TestStateCensusAnalyser {
             Assert.assertEquals(StateCensusAnalyserException.ExceptionType.INVALID_DELIMITER, e.type);
         }
     }
+
+    @Test
+    public void givenStateCodeCsvFile_WhenIncorrectHeader_ReturnCustomException() {
+        try {
+            stateCodeCsvData = "./src/test/resources/StateCodeHeaderCopy.csv";
+            censusAnalyser.loadCensusCSVData(stateCodeCsvData);
+        } catch (StateCensusAnalyserException e) {
+            Assert.assertEquals("Number of data fields does not match number of headers.", e.getMessage());
+        }
+    }
 }
