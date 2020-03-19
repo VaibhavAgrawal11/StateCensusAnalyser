@@ -19,12 +19,8 @@ public class StateCensusAnalyser {
     public int loadCensusCSVData(String getPath) throws StateCensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(getPath))
         ) {
-            //WITH THE HELP OF POJO FILE ITERATING AND PRINTING THE  CONTENTS OF THE CSV FILE.
-            CsvToBean csvStateCensuses = new CsvToBeanBuilder(reader)
-                    .withType(CSVStateCensus.class)
-                    .withIgnoreLeadingWhiteSpace(true)
-                    .build();
-            Iterator<CSVStateCensus> csvStateCensusIterator = csvStateCensuses.iterator();
+           Iterator<CSVStateCensus> csvStateCensusIterator;
+            csvStateCensusIterator = getCSVFileIterator(reader,CSVStateCensus.class);
             while (csvStateCensusIterator.hasNext()) {
                 CSVStateCensus csvStateCensus = csvStateCensusIterator.next();
                 count++;
@@ -43,12 +39,8 @@ public class StateCensusAnalyser {
     public int loadStateCodeData(String getPath) throws StateCensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(getPath))
         ) {
-            //WITH THE HELP OF POJO FILE ITERATING AND PRINTING THE  CONTENTS OF THE CSV FILE.
-            CsvToBean csvStateCode = new CsvToBeanBuilder(reader)
-                    .withType(CSVStateCode.class)
-                    .withIgnoreLeadingWhiteSpace(true)
-                    .build();
-            Iterator<CSVStateCode> csvStateCodeIterator = csvStateCode.iterator();
+            Iterator<CSVStateCode> csvStateCodeIterator;
+            csvStateCodeIterator = getCSVFileIterator(reader,CSVStateCode.class);
             while (csvStateCodeIterator.hasNext()) {
                 CSVStateCode csvStateCode1 = csvStateCodeIterator.next();
                 count++;
@@ -61,6 +53,21 @@ public class StateCensusAnalyser {
                     StateCensusAnalyserException.ExceptionType.INVALID_HEADER_COUNT);
         }
         return count;
+    }
+
+    //GENERIC METHOD FOR OPEN CSV TO READ AND ITERATE THE FILE
+    private <E> Iterator<E> getCSVFileIterator(Reader reader, Class<E> csvClass) throws StateCensusAnalyserException {
+        try {
+            CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
+            csvToBeanBuilder.withType(csvClass);
+            csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
+            CsvToBean<E> csvToBean = csvToBeanBuilder.build();
+            Iterator<E> censusCSVIterator = csvToBean.iterator();
+            return censusCSVIterator;
+        } catch (IllegalStateException e) {
+            throw new StateCensusAnalyserException(e.getMessage(),
+                    StateCensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
+        }
     }
 
     public void getFileExtension(File file) throws StateCensusAnalyserException {

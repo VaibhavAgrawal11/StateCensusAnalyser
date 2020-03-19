@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.bridgelabz.servicetest.TestStateCensusAnalyser" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-03-19T06:55:07" hostname="2020-PC" time="0.178">
+<testsuite name="com.bridgelabz.servicetest.TestStateCensusAnalyser" tests="10" skipped="0" failures="0" errors="0" timestamp="2020-03-19T08:17:55" hostname="2020-PC" time="0.531">
   <properties/>
-  <testcase name="givenStateCodeCsvFile_WhenIncorrectHeader_ReturnCustomException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.178"/>
+  <testcase name="givenStateCensusAnalyserFile_WhenIncorrectHeader_ReturnCustomException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.421"/>
+  <testcase name="givenStateCensusAnalyserFile_WhenIncorrectDelimiter_ReturnCustomException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.004"/>
+  <testcase name="givenStateCodeCsvFile_WhenImproperFileName_ReturnsException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.017"/>
+  <testcase name="givenStateCodeCsvFile_WhenIncorrectHeader_ReturnCustomException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.016"/>
+  <testcase name="givenStateCodeCsvFile_WhenIncorrectDelimiter_ReturnCustomException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.001"/>
+  <testcase name="givenStateCensusAnalyserFile_WhenIncorrectType_ReturnCustomException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.0"/>
+  <testcase name="givenStateCodeCsvFile_WhenIncorrectType_ReturnCustomException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.0"/>
+  <testcase name="givenStateCodeCsvFile_WhenTrue_NumberOfRecordShouldMatch" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.026"/>
+  <testcase name="givenStateCensusAnalyserFile_WhenImproperFileName_ReturnsException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.0"/>
+  <testcase name="givenStateCensusAnalyserFile_WhenTrue_NumberOfRecordShouldMatch" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.037"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
