@@ -3,6 +3,9 @@ package com.bridgelabz.service;
 import com.bridgelabz.exception.StateCensusAnalyserException;
 import com.bridgelabz.model.CSVStateCensus;
 import com.bridgelabz.model.CSVStateCode;
+import com.bridgelabz.utility.CSVBuilderFactory;
+import com.bridgelabz.utility.ICSVBuilder;
+import com.bridgelabz.utility.OpenCsvImpl;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -17,8 +20,9 @@ public class StateCensusAnalyser {
     public int loadCensusCSVData(String getPath) throws StateCensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(getPath))
         ) {
+            ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<CSVStateCensus> csvStateCensusIterator;
-            csvStateCensusIterator = OpenCsv.getCSVFileIterator(reader, CSVStateCensus.class);
+            csvStateCensusIterator = csvBuilder.getCSVFileIterator(reader, CSVStateCensus.class);
             CSVStateCensus csvStateCensus = null;
             count = getCount(csvStateCensusIterator, csvStateCensus);
         } catch (IOException e) {
@@ -35,8 +39,9 @@ public class StateCensusAnalyser {
     public int loadStateCodeData(String getPath) throws StateCensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(getPath))
         ) {
+            ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<CSVStateCode> csvStateCodeIterator;
-            csvStateCodeIterator = OpenCsv.getCSVFileIterator(reader, CSVStateCode.class);
+            csvStateCodeIterator = csvBuilder.getCSVFileIterator(reader, CSVStateCode.class);
             CSVStateCode csvStateCode = null;
             count = getCount(csvStateCodeIterator, csvStateCode);
         } catch (IOException e) {
