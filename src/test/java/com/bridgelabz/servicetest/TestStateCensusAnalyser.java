@@ -87,4 +87,15 @@ public class TestStateCensusAnalyser {
             Assert.assertEquals(StateCensusAnalyserException.ExceptionType.WRONG_FILE_TYPE, e.type);
         }
     }
+
+    @Test
+    public void givenStateCodeCsvFile_WhenIncorrectDelimiter_ReturnCustomException() {
+        try {
+            stateCodeCsvData = "./src/test/resources/StateCodeDelimiterCopy.csv";
+            File delimiterCheck = new File(stateCodeCsvData);
+            censusAnalyser.checkDelimiter(delimiterCheck);
+        } catch (StateCensusAnalyserException e) {
+            Assert.assertEquals(StateCensusAnalyserException.ExceptionType.INVALID_DELIMITER, e.type);
+        }
+    }
 }
