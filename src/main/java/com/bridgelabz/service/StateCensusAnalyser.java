@@ -19,16 +19,14 @@ public class StateCensusAnalyser {
     public int loadCensusCSVData(String getPath) throws StateCensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(getPath))
         ) {
-           Iterator<CSVStateCensus> csvStateCensusIterator;
-            csvStateCensusIterator = getCSVFileIterator(reader,CSVStateCensus.class);
-            while (csvStateCensusIterator.hasNext()) {
-                CSVStateCensus csvStateCensus = csvStateCensusIterator.next();
-                count++;
-            }
+            Iterator<CSVStateCensus> csvStateCensusIterator;
+            csvStateCensusIterator = getCSVFileIterator(reader, CSVStateCensus.class);
+            CSVStateCensus csvStateCensus = null;
+            count = getCount(csvStateCensusIterator, csvStateCensus);
         } catch (IOException e) {
             throw new StateCensusAnalyserException(e.getMessage(),
                     StateCensusAnalyserException.ExceptionType.INPUT_OUTPUT_OPERATION_FAILED);
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             throw new StateCensusAnalyserException("Number of data fields does not match number of headers.",
                     StateCensusAnalyserException.ExceptionType.INVALID_HEADER_COUNT);
         }
@@ -40,17 +38,24 @@ public class StateCensusAnalyser {
         try (Reader reader = Files.newBufferedReader(Paths.get(getPath))
         ) {
             Iterator<CSVStateCode> csvStateCodeIterator;
-            csvStateCodeIterator = getCSVFileIterator(reader,CSVStateCode.class);
-            while (csvStateCodeIterator.hasNext()) {
-                CSVStateCode csvStateCode1 = csvStateCodeIterator.next();
-                count++;
-            }
+            csvStateCodeIterator = getCSVFileIterator(reader, CSVStateCode.class);
+            CSVStateCode csvStateCode = null;
+            count = getCount(csvStateCodeIterator, csvStateCode);
         } catch (IOException e) {
             throw new StateCensusAnalyserException(e.getMessage(),
                     StateCensusAnalyserException.ExceptionType.INPUT_OUTPUT_OPERATION_FAILED);
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             throw new StateCensusAnalyserException("Number of data fields does not match number of headers.",
                     StateCensusAnalyserException.ExceptionType.INVALID_HEADER_COUNT);
+        }
+        return count;
+    }
+
+    //GENERIC METHOD TO ITERATE THROUGH CSV FILE.
+    private <E> int getCount(Iterator iterator, E nameClass) {
+        while (iterator.hasNext()) {
+            nameClass = (E) iterator.next();
+            count++;
         }
         return count;
     }
@@ -70,6 +75,7 @@ public class StateCensusAnalyser {
         }
     }
 
+    //METHOD TO CHECK FILE EXTENSION
     public void getFileExtension(File file) throws StateCensusAnalyserException {
         boolean result = false;
         String fileName = file.getName();
@@ -81,6 +87,7 @@ public class StateCensusAnalyser {
                     StateCensusAnalyserException.ExceptionType.WRONG_FILE_TYPE);
     }
 
+    //METHOD TO CHECK DELIMITER IN CSV FILE
     public void checkDelimiter(File file) throws StateCensusAnalyserException {
         Pattern pattern = Pattern.compile("^[\\w ]*,[\\w ]*,[\\w ]*,[\\w ]*");
         BufferedReader br = null;
