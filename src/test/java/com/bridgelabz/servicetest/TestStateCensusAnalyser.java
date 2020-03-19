@@ -66,4 +66,14 @@ public class TestStateCensusAnalyser {
         int count = censusAnalyser.loadStateCodeData(stateCodeCsvData);
         Assert.assertEquals(37, count);
     }
+
+    @Test
+    public void givenStateCodeCsvFile_WhenImproperFileName_ReturnsException() {
+        try {
+            stateCensusCsvData = "./src/test/resources/EstateCode.csv";
+            censusAnalyser.loadCensusCSVData(stateCensusCsvData);
+        } catch (StateCensusAnalyserException e) {
+            Assert.assertEquals(StateCensusAnalyserException.ExceptionType.INPUT_OUTPUT_OPERATION_FAILED, e.type);
+        }
+    }
 }
