@@ -1,5 +1,6 @@
 package com.bridgelabz.servicetest;
 
+import com.bridgelabz.exception.stateCensusAnalyserException;
 import com.bridgelabz.utility.CSVBuilderException;
 import com.bridgelabz.service.StateCensusAnalyser;
 import org.junit.Assert;
@@ -35,8 +36,8 @@ public class TestStateCensusAnalyser {
         try {
             File fileExtension = new File(stateCensusCsvData);
             censusAnalyser.getFileExtension(fileExtension);
-        } catch (CSVBuilderException e) {
-            Assert.assertEquals(CSVBuilderException.ExceptionType.WRONG_FILE_TYPE, e.type);
+        }catch (stateCensusAnalyserException e) {
+            Assert.assertEquals(stateCensusAnalyserException.ExceptionType.WRONG_FILE_TYPE, e.type);
         }
     }
 
@@ -46,8 +47,10 @@ public class TestStateCensusAnalyser {
             stateCensusCsvData = "./src/test/resources/StateCensusDataCopy.csv";
             File delimiterCheck = new File(stateCensusCsvData);
             censusAnalyser.checkDelimiter(delimiterCheck);
+        } catch (stateCensusAnalyserException e) {
+            Assert.assertEquals(stateCensusAnalyserException.ExceptionType.INVALID_DELIMITER, e.type);
         } catch (CSVBuilderException e) {
-            Assert.assertEquals(CSVBuilderException.ExceptionType.INVALID_DELIMITER, e.type);
+            e.printStackTrace();
         }
     }
 
@@ -83,8 +86,8 @@ public class TestStateCensusAnalyser {
         try {
             File fileExtension = new File(stateCodeCsvData);
             censusAnalyser.getFileExtension(fileExtension);
-        } catch (CSVBuilderException e) {
-            Assert.assertEquals(CSVBuilderException.ExceptionType.WRONG_FILE_TYPE, e.type);
+        } catch (stateCensusAnalyserException e) {
+            Assert.assertEquals(stateCensusAnalyserException.ExceptionType.WRONG_FILE_TYPE, e.type);
         }
     }
 
@@ -94,8 +97,10 @@ public class TestStateCensusAnalyser {
             stateCodeCsvData = "./src/test/resources/StateCodeDelimiterCopy.csv";
             File delimiterCheck = new File(stateCodeCsvData);
             censusAnalyser.checkDelimiter(delimiterCheck);
+        } catch (stateCensusAnalyserException e) {
+            Assert.assertEquals(stateCensusAnalyserException.ExceptionType.INVALID_DELIMITER, e.type);
         } catch (CSVBuilderException e) {
-            Assert.assertEquals(CSVBuilderException.ExceptionType.INVALID_DELIMITER, e.type);
+            e.printStackTrace();
         }
     }
 

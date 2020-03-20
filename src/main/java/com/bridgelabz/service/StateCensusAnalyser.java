@@ -64,7 +64,7 @@ public class StateCensusAnalyser {
     }
 
     //METHOD TO CHECK FILE EXTENSION
-    public void getFileExtension(File file) throws stateCensusAnalyserException , CSVBuilderException {
+    public void getFileExtension(File file) throws stateCensusAnalyserException {
         boolean result = false;
         String fileName = file.getName();
         if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
