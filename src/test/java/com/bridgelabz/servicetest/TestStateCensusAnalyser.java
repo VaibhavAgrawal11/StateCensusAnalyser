@@ -1,6 +1,6 @@
 package com.bridgelabz.servicetest;
 
-import com.bridgelabz.exception.CSVBuilderException;
+import com.bridgelabz.utility.CSVBuilderException;
 import com.bridgelabz.service.StateCensusAnalyser;
 import org.junit.Assert;
 import org.junit.Test;

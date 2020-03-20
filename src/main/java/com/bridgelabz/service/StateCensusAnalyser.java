@@ -1,10 +1,11 @@
 package com.bridgelabz.service;
 
-import com.bridgelabz.exception.CSVBuilderException;
+import com.bridgelabz.utility.CSVBuilderException;
 import com.bridgelabz.model.CSVStateCensus;
 import com.bridgelabz.model.CSVStateCode;
 import com.bridgelabz.utility.CSVBuilderFactory;
 import com.bridgelabz.utility.ICSVBuilder;
+import com.bridgelabz.exception.stateCensusAnalyserException;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -63,19 +64,19 @@ public class StateCensusAnalyser {
     }
 
     //METHOD TO CHECK FILE EXTENSION
-    public void getFileExtension(File file) throws CSVBuilderException {
+    public void getFileExtension(File file) throws stateCensusAnalyserException , CSVBuilderException {
         boolean result = false;
         String fileName = file.getName();
         if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0) {
             result = fileName.substring(fileName.lastIndexOf(".") + 1).equals("csv");
         }
         if (!result)
-            throw new CSVBuilderException("Wrong file type",
-                    CSVBuilderException.ExceptionType.WRONG_FILE_TYPE);
+            throw new stateCensusAnalyserException("Wrong file type",
+                    stateCensusAnalyserException.ExceptionType.WRONG_FILE_TYPE);
     }
 
     //METHOD TO CHECK DELIMITER IN CSV FILE
-    public void checkDelimiter(File file) throws CSVBuilderException {
+    public void checkDelimiter(File file) throws stateCensusAnalyserException, CSVBuilderException {
         Pattern pattern = Pattern.compile("^[\\w ]*,[\\w ]*,[\\w ]*,[\\w ]*");
         BufferedReader br = null;
         boolean delimiterResult = true;
@@ -85,8 +86,8 @@ public class StateCensusAnalyser {
             while ((line = br.readLine()) != null) {
                 delimiterResult = pattern.matcher(line).matches();
                 if (!delimiterResult) {
-                    throw new CSVBuilderException("Invalid Delimiter found",
-                            CSVBuilderException.ExceptionType.INVALID_DELIMITER);
+                    throw new stateCensusAnalyserException("Invalid Delimiter found",
+                            stateCensusAnalyserException.ExceptionType.INVALID_DELIMITER);
                 }
             }
         } catch (FileNotFoundException e) {
