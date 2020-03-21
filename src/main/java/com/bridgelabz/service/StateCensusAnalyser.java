@@ -11,6 +11,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class StateCensusAnalyser {
@@ -21,10 +22,10 @@ public class StateCensusAnalyser {
         try (Reader reader = Files.newBufferedReader(Paths.get(getPath))
         ) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<CSVStateCensus> csvStateCensusIterator;
-            csvStateCensusIterator = csvBuilder.getCSVFileIterator(reader, CSVStateCensus.class);
-            CSVStateCensus csvStateCensus = null;
-            count = getCount(csvStateCensusIterator, csvStateCensus);
+            List<CSVStateCensus> censusCSVList;
+            censusCSVList = csvBuilder.getCSVFileList(reader, CSVStateCensus.class);
+            System.out.println(censusCSVList);
+            return censusCSVList.size();
         } catch (IOException e) {
             throw new CSVBuilderException(e.getMessage(),
                     CSVBuilderException.ExceptionType.INPUT_OUTPUT_OPERATION_FAILED);
@@ -32,7 +33,6 @@ public class StateCensusAnalyser {
             throw new CSVBuilderException("Number of data fields does not match number of headers.",
                     CSVBuilderException.ExceptionType.INVALID_HEADER_COUNT);
         }
-        return count;
     }
 
     //READING AND PRINTING DATA FROM STATE CODE CSV FILE
@@ -40,10 +40,9 @@ public class StateCensusAnalyser {
         try (Reader reader = Files.newBufferedReader(Paths.get(getPath))
         ) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<CSVStateCode> csvStateCodeIterator;
-            csvStateCodeIterator = csvBuilder.getCSVFileIterator(reader, CSVStateCode.class);
-            CSVStateCode csvStateCode = null;
-            count = getCount(csvStateCodeIterator, csvStateCode);
+            List<CSVStateCode> censusCSVList;
+            censusCSVList = csvBuilder.getCSVFileList(reader, CSVStateCode.class);
+            return censusCSVList.size();
         } catch (IOException e) {
             throw new CSVBuilderException(e.getMessage(),
                     CSVBuilderException.ExceptionType.INPUT_OUTPUT_OPERATION_FAILED);
@@ -51,7 +50,6 @@ public class StateCensusAnalyser {
             throw new CSVBuilderException("Number of data fields does not match number of headers.",
                     CSVBuilderException.ExceptionType.INVALID_HEADER_COUNT);
         }
-        return count;
     }
 
     //GENERIC METHOD TO ITERATE THROUGH CSV FILE.

@@ -60,7 +60,7 @@ public class TestStateCensusAnalyser {
             stateCensusCsvData = "./src/test/resources/StateCensusDataHeaderCopy.csv";
             censusAnalyser.loadCensusCSVData(stateCensusCsvData);
         } catch (CSVBuilderException e) {
-            Assert.assertEquals("Number of data fields does not match number of headers.", e.getMessage());
+            Assert.assertEquals(e.getMessage(), "Number of data fields does not match number of headers.");
         }
     }
 
