@@ -3,10 +3,12 @@ package com.bridgelabz.servicetest;
 import com.bridgelabz.exception.stateCensusAnalyserException;
 import com.bridgelabz.utility.CSVBuilderException;
 import com.bridgelabz.service.StateCensusAnalyser;
+import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
+import com.bridgelabz.model.*;
 
 public class TestStateCensusAnalyser {
 
@@ -113,4 +115,45 @@ public class TestStateCensusAnalyser {
             Assert.assertEquals("Number of data fields does not match number of headers.", e.getMessage());
         }
     }
+
+    @Test
+    public void givenIndianCensusData_WhenSortedOnState_ShouldReturnSortedList() {
+        try {
+            censusAnalyser.loadCensusCSVData(stateCensusCsvData);
+            String sortedCensusData = censusAnalyser.getStateWiseSortedCensusData();
+            CSVStateCensus[] censusCSV = new Gson().fromJson(sortedCensusData, CSVStateCensus[].class);
+            Assert.assertEquals("Andhra Pradesh", censusCSV[0].getState());
+        } catch (CSVBuilderException e) {
+        } catch (stateCensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenIndianCensusData_WhenSortedOnState_ShouldReturnSortedList_2() {
+        try {
+            censusAnalyser.loadCensusCSVData(stateCensusCsvData);
+            String sortedCensusData = censusAnalyser.getStateWiseSortedCensusData();
+            CSVStateCensus[] censusCSV = new Gson().fromJson(sortedCensusData, CSVStateCensus[].class);
+            Assert.assertEquals("Assam", censusCSV[2].getState());
+        } catch (CSVBuilderException e) {
+        } catch (stateCensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenIndianCensusData_WhenSortedImproperlyOnState_ShouldNotReturnSortedList() {
+        try {
+            censusAnalyser.loadCensusCSVData(stateCensusCsvData);
+            String sortedCensusData = censusAnalyser.getStateWiseSortedCensusData();
+            CSVStateCensus[] censusCSV = new Gson().fromJson(sortedCensusData, CSVStateCensus[].class);
+            Assert.assertNotEquals("Gujarat", censusCSV[0].getState());
+        } catch (CSVBuilderException e) {
+        } catch (stateCensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
+
