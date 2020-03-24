@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
+
 import com.bridgelabz.model.*;
 
 public class TestStateCensusAnalyser {
@@ -38,7 +39,7 @@ public class TestStateCensusAnalyser {
         try {
             File fileExtension = new File(stateCensusCsvData);
             censusAnalyser.getFileExtension(fileExtension);
-        }catch (stateCensusAnalyserException e) {
+        } catch (stateCensusAnalyserException e) {
             Assert.assertEquals(stateCensusAnalyserException.ExceptionType.WRONG_FILE_TYPE, e.type);
         }
     }
@@ -154,6 +155,17 @@ public class TestStateCensusAnalyser {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void givenIndianStateCodeData_WhenSortedOnState_ShouldReturnSortedList() {
+        try {
+            censusAnalyser.loadStateCodeData(stateCodeCsvData);
+            String sortedCensusData = censusAnalyser.getStateWiseSortedStateCode();
+            CSVStateCode[] stateCensuses = new Gson().fromJson(sortedCensusData, CSVStateCode[].class);
+            Assert.assertEquals("AD", stateCensuses[0].getStateCode());
+        } catch (CSVBuilderException e) {
+        } catch (stateCensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
 }
-
-
