@@ -187,4 +187,18 @@ public class TestStateCensusAnalyser {
         }
     }
 
+    @Test
+    public void givenIndianStateCodeData_WhenNotSortedOnState_ShouldNotReturnSortedList() {
+        try {
+            censusAnalyser.loadStateCodeData(stateCodeCsvData);
+            String sortedCensusData = censusAnalyser.getStateWiseSortedStateCode();
+            CSVStateCode[] stateCensuses = new Gson().fromJson(sortedCensusData, CSVStateCode[].class);
+            Assert.assertNotEquals("GJ", stateCensuses[36].getStateCode());
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
+        } catch (stateCensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
