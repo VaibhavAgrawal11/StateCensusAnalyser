@@ -125,6 +125,7 @@ public class TestStateCensusAnalyser {
             CSVStateCensus[] censusCSV = new Gson().fromJson(sortedCensusData, CSVStateCensus[].class);
             Assert.assertEquals("Andhra Pradesh", censusCSV[0].getState());
         } catch (CSVBuilderException e) {
+            e.printStackTrace();
         } catch (stateCensusAnalyserException e) {
             e.printStackTrace();
         }
@@ -138,6 +139,7 @@ public class TestStateCensusAnalyser {
             CSVStateCensus[] censusCSV = new Gson().fromJson(sortedCensusData, CSVStateCensus[].class);
             Assert.assertEquals("Assam", censusCSV[2].getState());
         } catch (CSVBuilderException e) {
+            e.printStackTrace();
         } catch (stateCensusAnalyserException e) {
             e.printStackTrace();
         }
@@ -151,6 +153,7 @@ public class TestStateCensusAnalyser {
             CSVStateCensus[] censusCSV = new Gson().fromJson(sortedCensusData, CSVStateCensus[].class);
             Assert.assertNotEquals("Gujarat", censusCSV[0].getState());
         } catch (CSVBuilderException e) {
+            e.printStackTrace();
         } catch (stateCensusAnalyserException e) {
             e.printStackTrace();
         }
@@ -164,8 +167,24 @@ public class TestStateCensusAnalyser {
             CSVStateCode[] stateCensuses = new Gson().fromJson(sortedCensusData, CSVStateCode[].class);
             Assert.assertEquals("AD", stateCensuses[0].getStateCode());
         } catch (CSVBuilderException e) {
+            e.printStackTrace();
         } catch (stateCensusAnalyserException e) {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void givenIndianStateCodeData_WhenSortedOnState_ShouldReturnSortedList_2() {
+        try {
+            censusAnalyser.loadStateCodeData(stateCodeCsvData);
+            String sortedCensusData = censusAnalyser.getStateWiseSortedStateCode();
+            CSVStateCode[] stateCensuses = new Gson().fromJson(sortedCensusData, CSVStateCode[].class);
+            Assert.assertEquals("WB", stateCensuses[36].getStateCode());
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
+        } catch (stateCensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
