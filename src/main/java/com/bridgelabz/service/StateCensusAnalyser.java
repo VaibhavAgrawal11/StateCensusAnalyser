@@ -11,22 +11,24 @@ import com.google.gson.Gson;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class StateCensusAnalyser {
     int count = 0;
-    List censusCSVList;
+    Map<Object, Object> censusCSVMap = new HashMap<Object, Object>();
+    Map<Object, Object> stateCodeCSVMap = new HashMap<Object, Object>();
+
+    public StateCensusAnalyser() {
+    }
 
     //READING AND PRINTING DATA FROM STATE CENSUS CSV FILE
     public int loadCensusCSVData(String getPath) throws CSVBuilderException {
         try (Reader reader = Files.newBufferedReader(Paths.get(getPath))
         ) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            censusCSVList = csvBuilder.getCSVFileList(reader, CSVStateCensus.class);
-            return censusCSVList.size();
+            censusCSVMap = csvBuilder.getCSVFileMap(reader, CSVStateCensus.class);
+            return censusCSVMap.size();
         } catch (IOException e) {
             throw new CSVBuilderException(e.getMessage(),
                     CSVBuilderException.ExceptionType.INPUT_OUTPUT_OPERATION_FAILED);
@@ -41,8 +43,8 @@ public class StateCensusAnalyser {
         try (Reader reader = Files.newBufferedReader(Paths.get(getPath))
         ) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            censusCSVList = csvBuilder.getCSVFileList(reader, CSVStateCode.class);
-            return censusCSVList.size();
+            stateCodeCSVMap = csvBuilder.getCSVFileMap(reader, CSVStateCode.class);
+            return stateCodeCSVMap.size();
         } catch (IOException e) {
             throw new CSVBuilderException(e.getMessage(),
                     CSVBuilderException.ExceptionType.INPUT_OUTPUT_OPERATION_FAILED);
@@ -53,9 +55,9 @@ public class StateCensusAnalyser {
     }
 
     //GENERIC METHOD TO ITERATE THROUGH CSV FILE.
-    private <E> int getCount(Iterator iterator, E nameClass) {
+    private <E> int getCount(Iterator<E> iterator, E nameClass) {
         while (iterator.hasNext()) {
-            nameClass = (E) iterator.next();
+            nameClass = iterator.next();
             count++;
         }
         return count;
@@ -97,33 +99,35 @@ public class StateCensusAnalyser {
 
     //METHOD TO SORT STATE NAME
     public String getStateWiseSortedCensusData() throws stateCensusAnalyserException {
-        if (censusCSVList == null || censusCSVList.size() == 0)
+        if (censusCSVMap == null || censusCSVMap.size() == 0)
             throw new stateCensusAnalyserException("No Census Data", stateCensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
         Comparator<CSVStateCensus> censusCSVComparator = Comparator.comparing(census -> census.getState());
-        this.sort(censusCSVComparator);
-        String sortedStateCensusJson = new Gson().toJson(censusCSVList);
+        this.sort(censusCSVComparator,censusCSVMap);
+        Collection<Object> list1 =  censusCSVMap.values();
+        String sortedStateCensusJson = new Gson().toJson(list1);
         return sortedStateCensusJson;
     }
 
     //METHOD TO SORT STATE CODE
     public String getStateWiseSortedStateCode() throws stateCensusAnalyserException {
-        if (censusCSVList == null || censusCSVList.size() == 0)
+        if (stateCodeCSVMap == null || stateCodeCSVMap.size() == 0)
             throw new stateCensusAnalyserException("No State Data", stateCensusAnalyserException.ExceptionType.NO_STATE_CODE_DATA);
-        Comparator<CSVStateCode> censusCSVComparator = Comparator.comparing(census -> census.getStateCode());
-        this.sort(censusCSVComparator);
-        String sortedStateCensusJson = new Gson().toJson(censusCSVList);
+        Comparator<CSVStateCode> stateCodeComparator = Comparator.comparing(census -> census.getStateCode());
+        this.sort(stateCodeComparator,stateCodeCSVMap);
+        Collection<Object> list2 =  stateCodeCSVMap.values();
+        String sortedStateCensusJson = new Gson().toJson(list2);
         return sortedStateCensusJson;
     }
 
     //METHOD TO SORT THE LIST IN ALPHABETICAL ORDER
-    private <E> void sort(Comparator censusComparator) {
-        for (int iterate = 0; iterate < censusCSVList.size() - 1; iterate++) {
-            for (int innerIterate = 0; innerIterate < censusCSVList.size() - iterate - 1; innerIterate++) {
-                E census1 = (E) censusCSVList.get(innerIterate);
-                E census2 = (E) censusCSVList.get(innerIterate + 1);
+    private <E> void sort(Comparator censusComparator, Map<Object, Object> CSVMap) {
+        for (int iterate = 0; iterate < CSVMap.size() - 1; iterate++) {
+            for (int innerIterate = 0; innerIterate < CSVMap.size() - iterate - 1; innerIterate++) {
+                E census1 = (E) CSVMap.get(innerIterate);
+                E census2 = (E) CSVMap.get(innerIterate + 1);
                 if (censusComparator.compare(census1, census2) > 0) {
-                    censusCSVList.set(innerIterate, census2);
-                    censusCSVList.set(innerIterate + 1, census1);
+                    CSVMap.put(innerIterate, census2);
+                    CSVMap.put(innerIterate + 1, census1);
                 }
             }
 
