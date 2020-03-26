@@ -7,7 +7,7 @@ public class CSVStateCode {
     @CsvBindByName(column = "SrNo")
     private String SrNo;
 
-    @CsvBindByName(column = "State")
+    @CsvBindByName(column = "StateName")
     private String StateName;
 
     @CsvBindByName(column = "TIN")

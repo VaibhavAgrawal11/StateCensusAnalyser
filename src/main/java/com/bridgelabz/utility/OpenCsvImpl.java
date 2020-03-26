@@ -33,16 +33,4 @@ public class OpenCsvImpl<E> implements ICSVBuilder {
         csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
         return  csvToBeanBuilder.build().parse();
     }
-
-    @Override
-    public <E> HashMap<E, E> getCSVFileMap(Reader reader, Class csvClass) throws CSVBuilderException {
-        List list = getCSVFileList(reader, csvClass);
-        Map<Integer,Object> map = new HashMap<Integer, Object>();
-        Integer count =0;
-        for (Object ob:list) {
-            map.put( count, ob);
-            count++;
-        }
-        return (HashMap<E, E>) map;
-    }
 }

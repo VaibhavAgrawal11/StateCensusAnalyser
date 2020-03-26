@@ -9,5 +9,4 @@ public interface ICSVBuilder {
     public  <E> Iterator<E> getCSVFileIterator(Reader reader,
                                               Class csvClass) throws CSVBuilderException;
     public <E> List<E> getCSVFileList(Reader reader, Class csvClass) throws CSVBuilderException;
-    public <E> Map<E,E>getCSVFileMap (Reader reader, Class csvClass) throws CSVBuilderException;
 }
