@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.bridgelabz.servicetest.TestStateCensusAnalyser" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-03-22T15:02:35" hostname="vaibhav-Satellite-L655" time="0.277">
+<testsuite name="com.bridgelabz.servicetest.TestStateCensusAnalyser" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-03-26T09:14:08" hostname="vaibhav-Satellite-L655" time="0.003">
   <properties/>
-  <testcase name="givenIndianCensusData_WhenSortedImproperlyOnState_ShouldNotReturnSortedList" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.277"/>
-  <system-out><![CDATA[[com.bridgelabz.model.CSVStateCensus@25c73062, com.bridgelabz.model.CSVStateCensus@3d46ceec, com.bridgelabz.model.CSVStateCensus@6334e7ab, com.bridgelabz.model.CSVStateCensus@76fc21ff, com.bridgelabz.model.CSVStateCensus@6a244b62, com.bridgelabz.model.CSVStateCensus@611ec964, com.bridgelabz.model.CSVStateCensus@25d36353, com.bridgelabz.model.CSVStateCensus@32b74dcf, com.bridgelabz.model.CSVStateCensus@7a007fa0, com.bridgelabz.model.CSVStateCensus@6d42cc6d, com.bridgelabz.model.CSVStateCensus@5335f36d, com.bridgelabz.model.CSVStateCensus@5be405f1, com.bridgelabz.model.CSVStateCensus@22609c52, com.bridgelabz.model.CSVStateCensus@593a0dd7, com.bridgelabz.model.CSVStateCensus@25e82306, com.bridgelabz.model.CSVStateCensus@5ed871c7, com.bridgelabz.model.CSVStateCensus@78fcf442, com.bridgelabz.model.CSVStateCensus@71a10a3f, com.bridgelabz.model.CSVStateCensus@15b5f71e, com.bridgelabz.model.CSVStateCensus@87eea26, com.bridgelabz.model.CSVStateCensus@173f418f, com.bridgelabz.model.CSVStateCensus@6e3651a5, com.bridgelabz.model.CSVStateCensus@5481567a, com.bridgelabz.model.CSVStateCensus@2bd1b916, com.bridgelabz.model.CSVStateCensus@468fa6da, com.bridgelabz.model.CSVStateCensus@1ae87cd7, com.bridgelabz.model.CSVStateCensus@4404cb76, com.bridgelabz.model.CSVStateCensus@623bc3e9, com.bridgelabz.model.CSVStateCensus@59391002]
-]]></system-out>
+  <testcase name="givenStateCodeCsvFile_WhenIncorrectType_ReturnCustomException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
