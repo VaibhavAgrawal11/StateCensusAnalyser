@@ -116,6 +116,18 @@ public class StateCensusAnalyser {
         return sortedStateCensusJson;
     }
 
+    public String getStateWiseSortedSPopulation() throws stateCensusAnalyserException {
+        if (censusDAOMap == null || censusDAOMap.size() == 0)
+            throw new stateCensusAnalyserException("No Population State Data", stateCensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
+        Comparator<Map.Entry<String, IndianCensusDAO>> cencusComparator = Comparator.comparing(census -> census.getValue().population);
+        System.out.println(censusDAOMap);
+        LinkedHashMap<String, IndianCensusDAO> sortedByValue = this.sort(cencusComparator);
+        ArrayList<IndianCensusDAO> list = new ArrayList<IndianCensusDAO>(sortedByValue.values());
+        Collections.reverse(list);
+        String sortedStateCensusJson = new Gson().toJson(list);
+        return sortedStateCensusJson;
+    }
+
     //METHOD TO SORT THE LIST IN ALPHABETICAL ORDER
     private <E extends IndianCensusDAO> LinkedHashMap<String, IndianCensusDAO> sort(Comparator censusComparator) {
         Set<Map.Entry<String, IndianCensusDAO>> entries = censusDAOMap.entrySet();

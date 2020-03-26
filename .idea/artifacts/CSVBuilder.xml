@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CSVBuilder">
+    <output-path>$PROJECT_DIR$/out/artifacts/CSVBuilder</output-path>
+    <root id="archive" name="CSVBuilder.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/src/main/java/resources/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>

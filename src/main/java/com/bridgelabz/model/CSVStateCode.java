@@ -5,22 +5,22 @@ import com.opencsv.bean.CsvBindByName;
 public class CSVStateCode {
 
     @CsvBindByName(column = "SrNo")
-    private String SrNo;
+    private Integer SrNo;
 
     @CsvBindByName(column = "StateName")
     private String StateName;
 
     @CsvBindByName(column = "TIN")
-    private String TIN;
+    private Integer TIN;
 
     @CsvBindByName(column = "StateCode")
     private String StateCode;
 
-    public String getSrNo() {
+    public Integer getSrNo() {
         return SrNo;
     }
 
-    public void setSrNo(String srNo) {
+    public void setSrNo(Integer srNo) {
         SrNo = srNo;
     }
 
@@ -32,11 +32,11 @@ public class CSVStateCode {
         StateName = stateName;
     }
 
-    public String getTIN() {
+    public Integer getTIN() {
         return TIN;
     }
 
-    public void setTIN(String TIN) {
+    public void setTIN(Integer TIN) {
         this.TIN = TIN;
     }
 

@@ -4,12 +4,12 @@ import com.bridgelabz.model.*;
 
 public class IndianCensusDAO {
     public String state;
-    public String areaInSqKm;
-    public String densityPerSqKm;
-    public String population;
+    public Double areaInSqKm;
+    public Double densityPerSqKm;
+    public Integer population;
     public String stateCode;
-    public String srNo;
-    public String tin;
+    public Integer srNo;
+    public Integer tin;
 
     public IndianCensusDAO(CSVStateCensus indiaCensusCSV) {
         state = indiaCensusCSV.getState();

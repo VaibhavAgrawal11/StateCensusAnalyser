@@ -202,4 +202,18 @@ public class TestStateCensusAnalyser {
         }
     }
 
+    @Test
+    public void givenIndianStateCencusData_WhenSortedOnPopulation_ShouldReturnSortedList() {
+        try {
+            censusAnalyser.loadCensusCSVData(stateCensusCsvData);
+            String sortedCensusData = censusAnalyser.getStateWiseSortedSPopulation();
+            IndianCensusDAO[] stateCensuses = new Gson().fromJson(sortedCensusData, IndianCensusDAO[].class);
+            Assert.assertEquals("Uttar Pradesh", stateCensuses[0].state);
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
+        } catch (stateCensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
