@@ -116,12 +116,24 @@ public class StateCensusAnalyser {
         return sortedStateCensusJson;
     }
 
+    //METHOD TO SORT STATE ON ASIS OF POPULATION
     public String getStateWiseSortedSPopulation() throws stateCensusAnalyserException {
         if (censusDAOMap == null || censusDAOMap.size() == 0)
             throw new stateCensusAnalyserException("No Population State Data", stateCensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
-        Comparator<Map.Entry<String, IndianCensusDAO>> cencusComparator = Comparator.comparing(census -> census.getValue().population);
-        System.out.println(censusDAOMap);
-        LinkedHashMap<String, IndianCensusDAO> sortedByValue = this.sort(cencusComparator);
+        Comparator<Map.Entry<String, IndianCensusDAO>> censusComparator = Comparator.comparing(census -> census.getValue().population);
+        LinkedHashMap<String, IndianCensusDAO> sortedByValue = this.sort(censusComparator);
+        ArrayList<IndianCensusDAO> list = new ArrayList<IndianCensusDAO>(sortedByValue.values());
+        Collections.reverse(list);
+        String sortedStateCensusJson = new Gson().toJson(list);
+        return sortedStateCensusJson;
+    }
+
+    //METHOD TO SORT STATE ON ASIS OF POPULATION
+    public String getStateWiseSortedSPopulationDensity() throws stateCensusAnalyserException {
+        if (censusDAOMap == null || censusDAOMap.size() == 0)
+            throw new stateCensusAnalyserException("No DensityPerSquareKM State Data", stateCensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
+        Comparator<Map.Entry<String, IndianCensusDAO>> censusComparator = Comparator.comparing(census -> census.getValue().densityPerSqKm);
+        LinkedHashMap<String, IndianCensusDAO> sortedByValue = this.sort(censusComparator);
         ArrayList<IndianCensusDAO> list = new ArrayList<IndianCensusDAO>(sortedByValue.values());
         Collections.reverse(list);
         String sortedStateCensusJson = new Gson().toJson(list);
