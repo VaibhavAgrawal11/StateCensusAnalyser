@@ -216,4 +216,27 @@ public class TestStateCensusAnalyser {
         }
     }
 
+    @Test
+    public void givenIndianStateCencusData_WhenSortedOnPopulation_ShouldReturnSortedList_2() {
+        try {
+            censusAnalyser.loadCensusCSVData(stateCensusCsvData);
+            String sortedCensusData = censusAnalyser.getStateWiseSortedSPopulation();
+            IndianCensusDAO[] stateCensuses = new Gson().fromJson(sortedCensusData, IndianCensusDAO[].class);
+            Assert.assertEquals("Sikkim", stateCensuses[28].state);
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
+        } catch (stateCensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenIndianStateCensusData_WhenReturnsNull_ShouldThrowException() {
+        try {
+            String sortedCensusData = censusAnalyser.getStateWiseSortedSPopulation();
+            IndianCensusDAO[] stateCensuses = new Gson().fromJson(sortedCensusData, IndianCensusDAO[].class);
+        } catch (stateCensusAnalyserException e) {
+            Assert.assertEquals("No Population State Data", e.getMessage());
+        }
+    }
 }
