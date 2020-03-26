@@ -116,7 +116,7 @@ public class StateCensusAnalyser {
         return sortedStateCensusJson;
     }
 
-    //METHOD TO SORT STATE ON ASIS OF POPULATION
+    //METHOD TO SORT STATE ON BASIS OF POPULATION
     public String getStateWiseSortedSPopulation() throws stateCensusAnalyserException {
         if (censusDAOMap == null || censusDAOMap.size() == 0)
             throw new stateCensusAnalyserException("No Population State Data", stateCensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
@@ -128,11 +128,23 @@ public class StateCensusAnalyser {
         return sortedStateCensusJson;
     }
 
-    //METHOD TO SORT STATE ON ASIS OF POPULATION
+    //METHOD TO SORT STATE ON BASIS OF POPULATION DENSITY PER SQUARE KM
     public String getStateWiseSortedSPopulationDensity() throws stateCensusAnalyserException {
         if (censusDAOMap == null || censusDAOMap.size() == 0)
             throw new stateCensusAnalyserException("No DensityPerSquareKM State Data", stateCensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
         Comparator<Map.Entry<String, IndianCensusDAO>> censusComparator = Comparator.comparing(census -> census.getValue().densityPerSqKm);
+        LinkedHashMap<String, IndianCensusDAO> sortedByValue = this.sort(censusComparator);
+        ArrayList<IndianCensusDAO> list = new ArrayList<IndianCensusDAO>(sortedByValue.values());
+        Collections.reverse(list);
+        String sortedStateCensusJson = new Gson().toJson(list);
+        return sortedStateCensusJson;
+    }
+
+    //METHOD TO SORT STATE ON BASIS OF STATE AREA
+    public String getStateWiseSortedStateArea() throws stateCensusAnalyserException {
+        if (censusDAOMap == null || censusDAOMap.size() == 0)
+            throw new stateCensusAnalyserException("No Area of State Data", stateCensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
+        Comparator<Map.Entry<String, IndianCensusDAO>> censusComparator = Comparator.comparing(census -> census.getValue().areaInSqKm);
         LinkedHashMap<String, IndianCensusDAO> sortedByValue = this.sort(censusComparator);
         ArrayList<IndianCensusDAO> list = new ArrayList<IndianCensusDAO>(sortedByValue.values());
         Collections.reverse(list);
