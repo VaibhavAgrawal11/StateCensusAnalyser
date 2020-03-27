@@ -2,62 +2,21 @@ package com.bridgelabz.service;
 
 import com.bridgelabz.dao.IndianCensusDAO;
 import com.bridgelabz.exception.stateCensusAnalyserException;
-import com.bridgelabz.model.CSVStateCensus;
-import com.bridgelabz.model.CSVStateCode;
 import com.bridgelabz.utility.CSVBuilderException;
-import com.bridgelabz.utility.CSVBuilderFactory;
-import com.bridgelabz.utility.ICSVBuilder;
+import com.bridgelabz.utility.CensusLoader;
 import com.google.gson.Gson;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Pattern;
 
 public class StateCensusAnalyser {
     int count = 0;
     HashMap<String, IndianCensusDAO> censusDAOMap = new HashMap<String, IndianCensusDAO>();
-    private Set set;
 
-    //READING AND PRINTING DATA FROM STATE CENSUS CSV FILE
-    public int loadCensusCSVData(String getPath) throws CSVBuilderException {
-        try (Reader reader = Files.newBufferedReader(Paths.get(getPath))
-        ) {
-            ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<CSVStateCensus> csvFileIterator = csvBuilder.getCSVFileIterator(reader, CSVStateCensus.class);
-            while (csvFileIterator.hasNext()) {
-                IndianCensusDAO indianCensusDAO = new IndianCensusDAO(csvFileIterator.next());
-                this.censusDAOMap.put(indianCensusDAO.state, indianCensusDAO);
-            }
-            return this.censusDAOMap.size();
-        } catch (IOException e) {
-            throw new CSVBuilderException(e.getMessage(),
-                    CSVBuilderException.ExceptionType.INPUT_OUTPUT_OPERATION_FAILED);
-        } catch (RuntimeException e) {
-            throw new CSVBuilderException("Number of data fields does not match number of headers.",
-                    CSVBuilderException.ExceptionType.INVALID_HEADER_COUNT);
-        }
-    }
-
-    //READING AND PRINTING DATA FROM STATE CODE CSV FILE
-    public int loadStateCodeData(String getPath) throws CSVBuilderException {
-        try (Reader reader = Files.newBufferedReader(Paths.get(getPath))
-        ) {
-            ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<CSVStateCode> csvFileIterator = csvBuilder.getCSVFileIterator(reader, CSVStateCode.class);
-            while (csvFileIterator.hasNext()) {
-                IndianCensusDAO indianCensusDAO = new IndianCensusDAO(csvFileIterator.next());
-                this.censusDAOMap.put(indianCensusDAO.state, indianCensusDAO);
-            }
-            return this.censusDAOMap.size();
-        } catch (IOException e) {
-            throw new CSVBuilderException(e.getMessage(),
-                    CSVBuilderException.ExceptionType.INPUT_OUTPUT_OPERATION_FAILED);
-        } catch (RuntimeException e) {
-            throw new CSVBuilderException("Number of data fields does not match number of headers.",
-                    CSVBuilderException.ExceptionType.INVALID_HEADER_COUNT);
-        }
+    public int loadIndiaCensusData(String... csvFilePath) throws CSVBuilderException {
+        censusDAOMap = CensusLoader.loadCensusCSVData(censusDAOMap, csvFilePath);
+        return censusDAOMap.size();
     }
 
     //METHOD TO CHECK FILE EXTENSION
