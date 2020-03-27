@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.stream.StreamSupport;
 
 public class CensusLoader {
 
@@ -19,10 +20,10 @@ public class CensusLoader {
         ) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<CSVStateCensus> csvFileIterator = csvBuilder.getCSVFileIterator(reader, CSVStateCensus.class);
-            while (csvFileIterator.hasNext()) {
-                IndianCensusDAO indianCensusDAO = new IndianCensusDAO(csvFileIterator.next());
-                censusDAOMap.put(indianCensusDAO.state, indianCensusDAO);
-            }
+            Iterable<CSVStateCensus> csvStateCensusIterable = () -> csvFileIterator;
+            StreamSupport.stream(csvStateCensusIterable.spliterator(),false)
+                    .map(CSVStateCensus.class::cast)
+                    .forEach(csvStateCensus -> censusDAOMap.put(csvStateCensus.getState(),new IndianCensusDAO(csvStateCensus)));
             if (getPath.length == 1)
                 return censusDAOMap;
             return loadStateCodeData(censusDAOMap, getPath[1]);
@@ -41,10 +42,10 @@ public class CensusLoader {
         ) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<CSVStateCode> csvFileIterator = csvBuilder.getCSVFileIterator(reader, CSVStateCode.class);
-            while (csvFileIterator.hasNext()) {
-                IndianCensusDAO indianCensusDAO = new IndianCensusDAO(csvFileIterator.next());
-                censusDAOMap.put(indianCensusDAO.state, indianCensusDAO);
-            }
+            Iterable<CSVStateCode> csvStateCodeIterable = () -> csvFileIterator;
+            StreamSupport.stream(csvStateCodeIterable.spliterator(),false)
+                    .map(CSVStateCode.class::cast)
+                    .forEach(csvStateCode -> censusDAOMap.put(csvStateCode.getStateName(),new IndianCensusDAO(csvStateCode)));
             return censusDAOMap;
         } catch (IOException e) {
             throw new CSVBuilderException(e.getMessage(),
