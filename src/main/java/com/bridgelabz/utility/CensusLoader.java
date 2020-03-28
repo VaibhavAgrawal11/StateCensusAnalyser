@@ -3,6 +3,7 @@ package com.bridgelabz.utility;
 import com.bridgelabz.dao.IndianCensusDAO;
 import com.bridgelabz.model.CSVStateCensus;
 import com.bridgelabz.model.CSVStateCode;
+import com.bridgelabz.model.UsCSVData;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -56,4 +57,22 @@ public class CensusLoader {
         }
     }
 
+    public static HashMap<String, IndianCensusDAO> loadUsCensusData(HashMap<String, IndianCensusDAO> censusDAOMap, String getPath) throws CSVBuilderException {
+        try (Reader reader = Files.newBufferedReader(Paths.get(getPath))
+        ) {
+            ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
+            Iterator<UsCSVData> csvFileIterator = csvBuilder.getCSVFileIterator(reader, UsCSVData.class);
+            Iterable<UsCSVData> csvStateCodeIterable = () -> csvFileIterator;
+            StreamSupport.stream(csvStateCodeIterable.spliterator(),false)
+                    .map(UsCSVData.class::cast)
+                    .forEach(usCSVData -> censusDAOMap.put((usCSVData).getState(),new IndianCensusDAO(usCSVData)));
+            return censusDAOMap;
+        } catch (IOException e) {
+            throw new CSVBuilderException(e.getMessage(),
+                    CSVBuilderException.ExceptionType.INPUT_OUTPUT_OPERATION_FAILED);
+        } catch (RuntimeException e) {
+            throw new CSVBuilderException("Number of data fields does not match number of headers.",
+                    CSVBuilderException.ExceptionType.INVALID_HEADER_COUNT);
+        }
+    }
 }

@@ -19,6 +19,11 @@ public class StateCensusAnalyser {
         return censusDAOMap.size();
     }
 
+    public int loaUSCensusData(String csvFilePath) throws CSVBuilderException {
+        censusDAOMap = CensusLoader.loadUsCensusData(censusDAOMap,csvFilePath);
+        return censusDAOMap.size();
+    }
+
     //METHOD TO CHECK FILE EXTENSION
     public void getFileExtension(File file) throws stateCensusAnalyserException {
         boolean result = false;

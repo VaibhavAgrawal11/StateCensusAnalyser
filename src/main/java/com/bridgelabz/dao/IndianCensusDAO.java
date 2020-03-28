@@ -24,4 +24,12 @@ public class IndianCensusDAO {
         srNo=indiaCensusCSV.getSrNo();
         tin=indiaCensusCSV.getTIN();
     }
+
+    public IndianCensusDAO(UsCSVData usCSVData) {
+        stateCode=usCSVData.getStateId();
+        areaInSqKm=usCSVData.getArea();
+        state=usCSVData.getState();
+        densityPerSqKm=usCSVData.getPopulationDensity();
+        population=usCSVData.getPopulation();
+    }
 }

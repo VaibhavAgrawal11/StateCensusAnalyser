@@ -14,6 +14,7 @@ public class TestStateCensusAnalyser {
 
     String stateCensusCsvData = "./src/test/resources/StateCensusData.csv";
     String stateCodeCsvData = "./src/test/resources/StateCode.csv";
+    String usCensusCsvData = "./src/test/resources/USCensusData.csv";
     StateCensusAnalyser censusAnalyser = new StateCensusAnalyser();
 
     @Test
@@ -311,6 +312,36 @@ public class TestStateCensusAnalyser {
             IndianCensusDAO[] stateCensuses = new Gson().fromJson(sortedCensusData, IndianCensusDAO[].class);
         } catch (stateCensusAnalyserException e) {
             Assert.assertEquals("No Area of State Data", e.getMessage());
+        }
+    }
+
+    @Test
+    public void givenUsCensusData_WhenLoadedCorrect_ShouldReturnExactCountOfList() {
+        try{
+            int count = censusAnalyser.loaUSCensusData(usCensusCsvData);
+            Assert.assertEquals(51,count);
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUsCensusData_WhenLoadedIncorrect_ShouldReturnWrongCountOfList() {
+        try{
+            int count = censusAnalyser.loaUSCensusData(usCensusCsvData);
+            Assert.assertNotEquals(52,count);
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUsCensusData_WhenLoadedIncorrect_ShouldReturnWrongCountOfList_2() {
+        try{
+            int count = censusAnalyser.loaUSCensusData(usCensusCsvData);
+            Assert.assertNotEquals(50,count);
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
         }
     }
 }
