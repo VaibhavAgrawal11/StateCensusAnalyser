@@ -2,7 +2,7 @@ package com.bridgelabz.dao;
 
 import com.bridgelabz.model.*;
 
-public class IndianCensusDAO {
+public class CensusDAO {
     private Integer tin;
     private Integer srNo;
     public String state;
@@ -11,21 +11,21 @@ public class IndianCensusDAO {
     public Integer population;
     public String stateCode;
 
-    public IndianCensusDAO(CSVStateCensus indiaCensusCSV) {
+    public CensusDAO(CSVStateCensus indiaCensusCSV) {
         state = indiaCensusCSV.getState();
         areaInSqKm = indiaCensusCSV.getAreaInSqKm();
         densityPerSqKm = indiaCensusCSV.getDensityPerSqKm();
         population = indiaCensusCSV.getPopulation();
     }
 
-    public IndianCensusDAO(CSVStateCode indiaCensusCSV) {
+    public CensusDAO(CSVStateCode indiaCensusCSV) {
         stateCode=indiaCensusCSV.getStateCode();
         state=indiaCensusCSV.getStateName();
         srNo=indiaCensusCSV.getSrNo();
         tin=indiaCensusCSV.getTIN();
     }
 
-    public IndianCensusDAO(UsCSVData usCSVData) {
+    public CensusDAO(UsCSVData usCSVData) {
         stateCode=usCSVData.getStateId();
         areaInSqKm=usCSVData.getArea();
         state=usCSVData.getState();
