@@ -347,4 +347,42 @@ public class TestStateCensusAnalyser {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void givenUSStateCensusData_WhenSortedOnPopulation_ShouldReturnSortedList() {
+        try {
+            censusAnalyser.loadCensusData(US,usCensusCsvData);
+            String sortedCensusData = censusAnalyser.getStateWiseSortedUSStates();
+            CensusDAO[] stateCensuses = new Gson().fromJson(sortedCensusData, CensusDAO[].class);
+            Assert.assertEquals("California", stateCensuses[0].state);
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
+        } catch (StateCensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUSStateCensusData_WhenSortedOnPopulation_ShouldReturnSortedList_2() {
+        try {
+            censusAnalyser.loadCensusData(US,usCensusCsvData);
+            String sortedCensusData = censusAnalyser.getStateWiseSortedUSStates();
+            CensusDAO[] stateCensuses = new Gson().fromJson(sortedCensusData, CensusDAO[].class);
+            Assert.assertEquals("Wyoming", stateCensuses[50].state);
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
+        } catch (StateCensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUSStateCensusData_WhenReturnsNull_ShouldThrowException() {
+        try {
+            String sortedCensusData = censusAnalyser.getStateWiseSortedUSStates();
+            CensusDAO[] stateCensuses = new Gson().fromJson(sortedCensusData, CensusDAO[].class);
+        } catch (StateCensusAnalyserException e) {
+            Assert.assertEquals("No State data loaded", e.getMessage());
+        }
+    }
 }
