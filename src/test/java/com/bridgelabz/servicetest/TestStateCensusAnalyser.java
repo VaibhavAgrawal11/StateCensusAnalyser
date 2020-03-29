@@ -539,4 +539,52 @@ public class TestStateCensusAnalyser {
             Assert.assertEquals("No Census Data", e.getMessage());
         }
     }
+
+    @Test
+    public void givenIndianStateCensusData_WhenSortedPopulationAndDensity_ShouldReturnSortedList() throws CSVBuilderException {
+        try {
+            indiaCensusAnalyser.loadCensusData(INDIA,stateCensusCsvData);
+            String sortedCensusData = indiaCensusAnalyser.getDualSortByPopulationDensity();
+            CSVStateCensus[] stateCensuses = new Gson().fromJson(sortedCensusData, CSVStateCensus[].class);
+            Assert.assertEquals("Uttar Pradesh", stateCensuses[0].state);
+        } catch (StateCensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenIndianStateCensusData_WhenSortedPopulationAndDensity_ShouldReturnSortedList_2() throws CSVBuilderException {
+        try {
+            indiaCensusAnalyser.loadCensusData(INDIA,stateCensusCsvData);
+            String sortedCensusData = indiaCensusAnalyser.getDualSortByPopulationDensity();
+            CSVStateCensus[] stateCensuses = new Gson().fromJson(sortedCensusData, CSVStateCensus[].class);
+            Assert.assertEquals("Sikkim", stateCensuses[28].state);
+        } catch (StateCensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUSStateCensusData_WhenSortedPopulationAndDensity_ShouldReturnSortedList() throws CSVBuilderException {
+        try {
+            usCensusAnalyser.loadCensusData(US,usCensusCsvData);
+            String sortedCensusData = usCensusAnalyser.getDualSortByPopulationDensity();
+            UsCSVData[] stateCensuses = new Gson().fromJson(sortedCensusData, UsCSVData[].class);
+            Assert.assertEquals("California", stateCensuses[0].state);
+        } catch (StateCensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUSStateCensusData_WhenSortedPopulationAndDensity_ShouldReturnSortedList_2() throws CSVBuilderException {
+        try {
+            usCensusAnalyser.loadCensusData(US,usCensusCsvData);
+            String sortedCensusData = usCensusAnalyser.getDualSortByPopulationDensity();
+            UsCSVData[] stateCensuses = new Gson().fromJson(sortedCensusData, UsCSVData[].class);
+            Assert.assertEquals("Wyoming", stateCensuses[50].state);
+        } catch (StateCensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
 }

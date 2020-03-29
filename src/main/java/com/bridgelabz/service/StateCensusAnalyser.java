@@ -15,9 +15,10 @@ import java.util.stream.Collectors;
 public class StateCensusAnalyser {
     Map<String, CensusDAO> censusDAOMap = new HashMap<String, CensusDAO>();
 
-    public StateCensusAnalyser() {    }
+    public StateCensusAnalyser() {
+    }
 
-    public enum COUNTRY {INDIA,US}
+    public enum COUNTRY {INDIA, US}
 
     private COUNTRY country;
 
@@ -25,7 +26,7 @@ public class StateCensusAnalyser {
         this.country = country;
     }
 
-    public enum SortingMode {AREA,STATE,STATECODE,DENSITY,POPULATION}
+    public enum SortingMode {AREA, STATE, STATECODE, DENSITY, POPULATION}
 
     //GENERIC METHOD LOADING EVERY FILE DATA
     public int loadCensusData(COUNTRY country, String... csvFilePath) throws CSVBuilderException {
@@ -75,6 +76,16 @@ public class StateCensusAnalyser {
         ArrayList censusDTO = censusDAOMap.values().stream()
                 .sorted(CensusDAO.getSortComparator(mode))
                 .map(censusDAO -> censusDAO.getCensusDTO(country))
+                .collect(Collectors.toCollection(ArrayList::new));
+        return new Gson().toJson(censusDTO);
+    }
+
+    public String getDualSortByPopulationDensity() throws StateCensusAnalyserException {
+        if (censusDAOMap == null || censusDAOMap.size() == 0)
+            throw new StateCensusAnalyserException("No Census Data", StateCensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
+        ArrayList censusDTO = censusDAOMap.values().stream()
+                .sorted(Comparator.comparingInt(CensusDAO::getPopulation).thenComparingDouble(CensusDAO::getPopulationDensity).reversed())
+                .map(c -> c.getCensusDTO(country))
                 .collect(Collectors.toCollection(ArrayList::new));
         return new Gson().toJson(censusDTO);
     }
