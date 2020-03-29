@@ -1,6 +1,5 @@
 package com.bridgelabz.servicetest;
 
-import com.bridgelabz.dao.CensusDAO;
 import com.bridgelabz.exception.StateCensusAnalyserException;
 import com.bridgelabz.model.CSVStateCensus;
 import com.bridgelabz.model.UsCSVData;
@@ -14,7 +13,7 @@ import java.io.File;
 
 import static com.bridgelabz.service.StateCensusAnalyser.COUNTRY.INDIA;
 import static com.bridgelabz.service.StateCensusAnalyser.COUNTRY.US;
-`
+
 public class TestStateCensusAnalyser {
 
     String stateCensusCsvData = "./src/test/resources/StateCensusData.csv";
@@ -383,6 +382,44 @@ public class TestStateCensusAnalyser {
     public void givenUSStateCensusData_WhenReturnsNull_ShouldThrowException() {
         try {
             String sortedCensusData = usCensusAnalyser.getSortedCensusData(StateCensusAnalyser.SortingMode.POPULATION);
+            UsCSVData[] stateCensuses = new Gson().fromJson(sortedCensusData, UsCSVData[].class);
+        } catch (StateCensusAnalyserException e) {
+            Assert.assertEquals("No Census Data", e.getMessage());
+        }
+    }
+
+    @Test
+    public void givenUSStateCensusData_WhenSortedOnArea_ShouldReturnSortedList() {
+        try {
+            usCensusAnalyser.loadCensusData(US,usCensusCsvData);
+            String sortedCensusData = usCensusAnalyser.getSortedCensusData(StateCensusAnalyser.SortingMode.AREA);
+            UsCSVData[] stateCensuses = new Gson().fromJson(sortedCensusData, UsCSVData[].class);
+            Assert.assertEquals("Alaska", stateCensuses[0].state);
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
+        } catch (StateCensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUSStateCensusData_WhenSortedOnArea_ShouldReturnSortedList_2() {
+        try {
+            usCensusAnalyser.loadCensusData(US,usCensusCsvData);
+            String sortedCensusData = usCensusAnalyser.getSortedCensusData(StateCensusAnalyser.SortingMode.AREA);
+            UsCSVData[] stateCensuses = new Gson().fromJson(sortedCensusData, UsCSVData[].class);
+            Assert.assertEquals("District of Columbia", stateCensuses[50].state);
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
+        } catch (StateCensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUSStateCensusData_WhenReturnsNullArea_ShouldThrowException() {
+        try {
+            String sortedCensusData = usCensusAnalyser.getSortedCensusData(StateCensusAnalyser.SortingMode.AREA);
             UsCSVData[] stateCensuses = new Gson().fromJson(sortedCensusData, UsCSVData[].class);
         } catch (StateCensusAnalyserException e) {
             Assert.assertEquals("No Census Data", e.getMessage());
