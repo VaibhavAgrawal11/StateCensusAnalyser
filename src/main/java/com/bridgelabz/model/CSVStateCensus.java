@@ -2,51 +2,30 @@ package com.bridgelabz.model;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class CSVStateCensus {
+public class CSVStateCensus extends CSVStateCode {
+
+    public CSVStateCensus(){ }
 
     //BINDING THE COLUMN NAME IN CsvBindByName CLASS
-    @CsvBindByName(column = "State")
-    private String State;
+    @CsvBindByName(column = "State", required = true)
+    public String state;
 
-    @CsvBindByName(column = "population")
-    private Integer Population;
+    @CsvBindByName(column = "Population", required = true)
+    public Integer population;
 
-    @CsvBindByName
-    private Double AreaInSqKm;
+    @CsvBindByName(column = "AreaInSqKm", required = true)
+    public Double areaInSqKm;
 
-    @CsvBindByName
-    private Double DensityPerSqKm;
+    @CsvBindByName(column = "DensityPerSqKm", required = true)
+    public Double densityPerSqKm;
 
-    public void setState(String state) {
-        State = state;
-    }
+    public String stateCode = super.StateCode;
 
-    //GETTER AND SETTER METHOD TO ENCAPSULATE AND PROVIDE WAY TO USER TO USE PRIVATE DATA
-    public String getState() {
-        return State;
-    }
-
-    public void setPopulation(Integer population) {
-        Population = population;
-    }
-
-    public Integer getPopulation() {
-        return Population;
-    }
-
-    public void setAreaInSqKm(Double areaInSqKm) {
-        AreaInSqKm = areaInSqKm;
-    }
-
-    public Double getAreaInSqKm() {
-        return AreaInSqKm;
-    }
-
-    public void setDensityPerSqKm(Double densityPerSqKm) {
-        DensityPerSqKm = densityPerSqKm;
-    }
-
-    public Double getDensityPerSqKm() {
-        return DensityPerSqKm;
+    public CSVStateCensus(String state, String stateCode, Integer population, Double areaInSqKm, Double densityPerSqKm) {
+        this.stateCode = stateCode;
+        this.state = state;
+        this.areaInSqKm = areaInSqKm;
+        this.population = population;
+        this.densityPerSqKm = densityPerSqKm;
     }
 }

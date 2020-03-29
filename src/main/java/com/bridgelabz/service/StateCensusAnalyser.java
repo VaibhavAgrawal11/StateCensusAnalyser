@@ -10,12 +10,22 @@ import com.google.gson.Gson;
 import java.io.*;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class StateCensusAnalyser {
-    int count = 0;
     Map<String, CensusDAO> censusDAOMap = new HashMap<String, CensusDAO>();
 
+    public StateCensusAnalyser() {    }
+
     public enum COUNTRY {INDIA,US}
+
+    private COUNTRY country;
+
+    public StateCensusAnalyser(COUNTRY country) {
+        this.country = country;
+    }
+
+    public enum SortingMode {AREA,STATE,STATECODE,DENSITY,POPULATION}
 
     //GENERIC METHOD LOADING EVERY FILE DATA
     public int loadCensusData(COUNTRY country, String... csvFilePath) throws CSVBuilderException {
@@ -58,85 +68,14 @@ public class StateCensusAnalyser {
         }
     }
 
-    //METHOD TO SORT STATE NAME
-    public String getStateWiseSortedCensusData() throws StateCensusAnalyserException {
+    //GENERIC METHOD TO SORT CENSUS DATA
+    public String getSortedCensusData(SortingMode mode) throws StateCensusAnalyserException {
         if (censusDAOMap == null || censusDAOMap.size() == 0)
             throw new StateCensusAnalyserException("No Census Data", StateCensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
-        Comparator<Map.Entry<String, CensusDAO>> stateCodeComparator = Comparator.comparing(census -> census.getValue().state);
-        LinkedHashMap<String, CensusDAO> sortedByValue = this.sort(stateCodeComparator);
-        Collection<CensusDAO> list1 = sortedByValue.values();
-        String sortedStateCensusJson = new Gson().toJson(list1);
-        return sortedStateCensusJson;
-    }
-
-    //METHOD TO SORT STATE CODE
-    public String getStateWiseSortedStateCode() throws StateCensusAnalyserException {
-        if (censusDAOMap == null || censusDAOMap.size() == 0)
-            throw new StateCensusAnalyserException("No State Data", StateCensusAnalyserException.ExceptionType.NO_STATE_CODE_DATA);
-        Comparator<Map.Entry<String, CensusDAO>> stateCodeComparator = Comparator.comparing(census -> census.getValue().stateCode);
-        LinkedHashMap<String, CensusDAO> sortedByValue = this.sort(stateCodeComparator);
-        Collection<CensusDAO> list2 = sortedByValue.values();
-        String sortedStateCensusJson = new Gson().toJson(list2);
-        return sortedStateCensusJson;
-    }
-
-    //METHOD TO SORT STATE ON BASIS OF POPULATION
-    public String getStateWiseSortedSPopulation() throws StateCensusAnalyserException {
-        if (censusDAOMap == null || censusDAOMap.size() == 0)
-            throw new StateCensusAnalyserException("No Population State Data", StateCensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
-        Comparator<Map.Entry<String, CensusDAO>> censusComparator = Comparator.comparing(census -> census.getValue().population);
-        LinkedHashMap<String, CensusDAO> sortedByValue = this.sort(censusComparator);
-        ArrayList<CensusDAO> list = new ArrayList<CensusDAO>(sortedByValue.values());
-        Collections.reverse(list);
-        String sortedStateCensusJson = new Gson().toJson(list);
-        return sortedStateCensusJson;
-    }
-
-    //METHOD TO SORT STATE ON BASIS OF POPULATION DENSITY PER SQUARE KM
-    public String getStateWiseSortedSPopulationDensity() throws StateCensusAnalyserException {
-        if (censusDAOMap == null || censusDAOMap.size() == 0)
-            throw new StateCensusAnalyserException("No DensityPerSquareKM State Data", StateCensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
-        Comparator<Map.Entry<String, CensusDAO>> censusComparator = Comparator.comparing(census -> census.getValue().densityPerSqKm);
-        LinkedHashMap<String, CensusDAO> sortedByValue = this.sort(censusComparator);
-        ArrayList<CensusDAO> list = new ArrayList<CensusDAO>(sortedByValue.values());
-        Collections.reverse(list);
-        String sortedStateCensusJson = new Gson().toJson(list);
-        return sortedStateCensusJson;
-    }
-
-    //METHOD TO SORT STATE ON BASIS OF STATE AREA
-    public String getStateWiseSortedStateArea() throws StateCensusAnalyserException {
-        if (censusDAOMap == null || censusDAOMap.size() == 0)
-            throw new StateCensusAnalyserException("No Area of State Data", StateCensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
-        Comparator<Map.Entry<String, CensusDAO>> censusComparator = Comparator.comparing(census -> census.getValue().areaInSqKm);
-        LinkedHashMap<String, CensusDAO> sortedByValue = this.sort(censusComparator);
-        ArrayList<CensusDAO> list = new ArrayList<CensusDAO>(sortedByValue.values());
-        Collections.reverse(list);
-        String sortedStateCensusJson = new Gson().toJson(list);
-        return sortedStateCensusJson;
-    }
-
-    //METHOD TO SORT US STATE ON BASIS OF POPULATION
-    public String getStateWiseSortedUSStates() throws StateCensusAnalyserException{
-        if (censusDAOMap == null || censusDAOMap.size() == 0)
-            throw new StateCensusAnalyserException("No State data loaded",StateCensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
-        Comparator<Map.Entry<String,CensusDAO>> comparator = Comparator.comparing(census -> census.getValue().population);
-        LinkedHashMap<String, CensusDAO> sortedByValue = this.sort(comparator);
-        ArrayList<CensusDAO> list = new ArrayList<CensusDAO>(sortedByValue.values());
-        Collections.reverse(list);
-        String sortedStateCensusJson = new Gson().toJson(list);
-        return sortedStateCensusJson;
-    }
-
-    //METHOD TO SORT THE LIST IN ALPHABETICAL ORDER
-    private <E extends CensusDAO> LinkedHashMap<String, CensusDAO> sort(Comparator censusComparator) {
-        Set<Map.Entry<String, CensusDAO>> entries = censusDAOMap.entrySet();
-        List<Map.Entry<String, CensusDAO>> listOfEntries = new ArrayList<Map.Entry<String, CensusDAO>>(entries);
-        Collections.sort(listOfEntries, censusComparator);
-        LinkedHashMap<String, CensusDAO> sortedByValue = new LinkedHashMap<String, CensusDAO>(listOfEntries.size());
-        for (Map.Entry<String, CensusDAO> entry : listOfEntries) {
-            sortedByValue.put(entry.getKey(), entry.getValue());
-        }
-        return sortedByValue;
+        ArrayList censusDTO = censusDAOMap.values().stream()
+                .sorted(CensusDAO.getSortComparator(mode))
+                .map(censusDAO -> censusDAO.getCensusDTO(country))
+                .collect(Collectors.toCollection(ArrayList::new));
+        return new Gson().toJson(censusDTO);
     }
 }

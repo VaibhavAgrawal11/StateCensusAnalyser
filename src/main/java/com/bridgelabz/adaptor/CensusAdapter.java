@@ -18,11 +18,11 @@ import java.util.stream.StreamSupport;
 
 public abstract class CensusAdapter {
 
-    public abstract Map<String, CensusDAO> loadCensusData(String... csvFilePath) throws CSVBuilderException ;
+    public abstract Map<String, CensusDAO> loadCensusData(String... csvFilePath) throws CSVBuilderException;
 
-     <E> Map<String, CensusDAO> loadCensusData(Class<E> censusCSVClass, String... getPath) throws CSVBuilderException {
+    public <E> Map<String, CensusDAO> loadCensusData(Class<E> censusCSVClass, String... getPath) throws CSVBuilderException {
         Map<String, CensusDAO> censusDAOMap = new HashedMap();
-        try (Reader reader = Files.newBufferedReader(Paths.get(getPath[0]))
+        try (Reader reader = Files.newBufferedReader(Paths.get(getPath[0]));
         ) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<E> csvFileIterator = csvBuilder.getCSVFileIterator(reader, censusCSVClass);
@@ -30,11 +30,11 @@ public abstract class CensusAdapter {
             if (censusCSVClass.getName().equals("com.bridgelabz.model.CSVStateCensus"))
                 StreamSupport.stream(csvStateCensusIterable.spliterator(), false)
                         .map(CSVStateCensus.class::cast)
-                        .forEach(CSVStateCensus -> censusDAOMap.put(CSVStateCensus.getState(), new CensusDAO(CSVStateCensus)));
+                        .forEach(CSVStateCensus -> censusDAOMap.put(CSVStateCensus.state, new CensusDAO(CSVStateCensus)));
             if (censusCSVClass.getName().equals("com.bridgelabz.model.UsCSVData"))
                 StreamSupport.stream(csvStateCensusIterable.spliterator(), false)
                         .map(UsCSVData.class::cast)
-                        .forEach(UsCSVData -> censusDAOMap.put(UsCSVData.getState(), new CensusDAO(UsCSVData)));
+                        .forEach(UsCSVData -> censusDAOMap.put(UsCSVData.state, new CensusDAO(UsCSVData)));
             return censusDAOMap;
         } catch (IOException e) {
             throw new CSVBuilderException(e.getMessage(),
