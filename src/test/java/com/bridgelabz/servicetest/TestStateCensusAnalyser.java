@@ -463,4 +463,42 @@ public class TestStateCensusAnalyser {
             Assert.assertEquals("No Census Data", e.getMessage());
         }
     }
+
+    @Test
+    public void givenUSStateCensusData_WhenSortedOnPopulationDensity_ShouldReturnSortedList() {
+        try {
+            usCensusAnalyser.loadCensusData(US,usCensusCsvData);
+            String sortedCensusData = usCensusAnalyser.getSortedCensusData(StateCensusAnalyser.SortingMode.DENSITY);
+            UsCSVData[] stateCensuses = new Gson().fromJson(sortedCensusData, UsCSVData[].class);
+            Assert.assertEquals("District of Columbia", stateCensuses[0].state);
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
+        } catch (StateCensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUSStateCensusData_WhenSortedOnPopulationDensity_ShouldReturnSortedList_2() {
+        try {
+            usCensusAnalyser.loadCensusData(US,usCensusCsvData);
+            String sortedCensusData = usCensusAnalyser.getSortedCensusData(StateCensusAnalyser.SortingMode.DENSITY);
+            UsCSVData[] stateCensuses = new Gson().fromJson(sortedCensusData, UsCSVData[].class);
+            Assert.assertEquals("Alaska", stateCensuses[50].state);
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
+        } catch (StateCensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUSStateCensusData_WhenReturnsNullPopulationDensity_ShouldThrowException() {
+        try {
+            String sortedCensusData = usCensusAnalyser.getSortedCensusData(StateCensusAnalyser.SortingMode.DENSITY);
+            UsCSVData[] stateCensuses = new Gson().fromJson(sortedCensusData, UsCSVData[].class);
+        } catch (StateCensusAnalyserException e) {
+            Assert.assertEquals("No Census Data", e.getMessage());
+        }
+    }
 }
