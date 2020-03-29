@@ -1,7 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.bridgelabz.servicetest.TestStateCensusAnalyser" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-03-26T12:14:13" hostname="vaibhav-Satellite-L655" time="0.003">
+<testsuite name="com.bridgelabz.servicetest.TestStateCensusAnalyser" tests="31" skipped="0" failures="0" errors="0" timestamp="2020-03-29T10:30:04" hostname="vaibhav-Satellite-L655" time="0.87">
   <properties/>
-  <testcase name="givenIndianStateCensusData_WhenReturnsNull_ShouldThrowException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.003"/>
+  <testcase name="givenIndianCensusData_WhenSortedOnState_ShouldReturnSortedList" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.303"/>
+  <testcase name="givenIndianStateCensusData_WhenSortedStateAreaList_ShouldReturnSortedList_2" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.05"/>
+  <testcase name="givenStateCensusAnalyserFile_WhenIncorrectHeader_ReturnCustomException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.045"/>
+  <testcase name="givenUSStateCensusData_WhenReturnsNull_ShouldThrowException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.001"/>
+  <testcase name="givenUSStateCensusData_WhenSortedOnPopulation_ShouldReturnSortedList" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.043"/>
+  <testcase name="givenIndianStateCensusData_WhenSortedOnDensityPerSquareKM_ShouldReturnSortedList_2" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.029"/>
+  <testcase name="givenIndianStateCensusData_WhenReturnsNull_ShouldThrowException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.0"/>
+  <testcase name="givenIndianStateCodeData_WhenNotSortedOnState_ShouldNotReturnSortedList" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.044"/>
+  <testcase name="givenUsCensusData_WhenLoadedCorrect_ShouldReturnExactCountOfList" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.03"/>
+  <testcase name="givenStateCensusAnalyserFile_WhenIncorrectDelimiter_ReturnCustomException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.002"/>
+  <testcase name="givenIndianStateCodeData_WhenSortedOnState_ShouldReturnSortedList" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.038"/>
+  <testcase name="givenStateCodeCsvFile_WhenImproperFileName_ReturnsException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.017"/>
+  <testcase name="givenStateCodeCsvFile_WhenIncorrectHeader_ReturnCustomException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.012"/>
+  <testcase name="givenUsCensusData_WhenLoadedIncorrect_ShouldReturnWrongCountOfList_2" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.019"/>
+  <testcase name="givenIndianStateCensusData_WhenSortedStateAreaList_ShouldThrowException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.001"/>
+  <testcase name="givenIndianCensusData_WhenSortedOnState_ShouldReturnSortedList_2" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.019"/>
+  <testcase name="givenUsCensusData_WhenLoadedIncorrect_ShouldReturnWrongCountOfList" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.022"/>
+  <testcase name="givenIndianStateCensusData_WhenSortedOnDensityPerSquareKM_ShouldReturnSortedList" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.023"/>
+  <testcase name="givenIndianStateCensusData_WhenSortedOnPopulation_ShouldReturnSortedList_2" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.022"/>
+  <testcase name="givenIndianStateCensusData_WhenSortedOnDensityPerSquareKM_ShouldThrowException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.0"/>
+  <testcase name="givenIndianCensusData_WhenSortedImproperlyOnState_ShouldNotReturnSortedList" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.018"/>
+  <testcase name="givenStateCodeCsvFile_WhenIncorrectDelimiter_ReturnCustomException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.001"/>
+  <testcase name="givenStateCensusAnalyserFile_WhenIncorrectType_ReturnCustomException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.0"/>
+  <testcase name="givenStateCodeCsvFile_WhenIncorrectType_ReturnCustomException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.001"/>
+  <testcase name="givenIndianStateCensusData_WhenSortedStateAreaList_ShouldReturnSortedList" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.016"/>
+  <testcase name="givenStateCodeCsvFile_WhenTrue_NumberOfRecordShouldMatch" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.019"/>
+  <testcase name="givenStateCensusAnalyserFile_WhenImproperFileName_ReturnsException" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.0"/>
+  <testcase name="givenIndianStateCensusData_WhenSortedOnPopulation_ShouldReturnSortedList" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.018"/>
+  <testcase name="givenStateCensusAnalyserFile_WhenTrue_NumberOfRecordShouldMatch" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.013"/>
+  <testcase name="givenUSStateCensusData_WhenSortedOnPopulation_ShouldReturnSortedList_2" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.024"/>
+  <testcase name="givenIndianStateCodeData_WhenSortedOnState_ShouldReturnSortedList_2" classname="com.bridgelabz.servicetest.TestStateCensusAnalyser" time="0.023"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
