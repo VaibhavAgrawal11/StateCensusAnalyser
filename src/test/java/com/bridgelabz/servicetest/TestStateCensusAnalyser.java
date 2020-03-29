@@ -501,4 +501,42 @@ public class TestStateCensusAnalyser {
             Assert.assertEquals("No Census Data", e.getMessage());
         }
     }
+
+    @Test
+    public void givenUSStateCensusData_WhenSortedOnStateCode_ShouldReturnSortedList() {
+        try {
+            usCensusAnalyser.loadCensusData(US,usCensusCsvData);
+            String sortedCensusData = usCensusAnalyser.getSortedCensusData(StateCensusAnalyser.SortingMode.STATECODE);
+            UsCSVData[] stateCensuses = new Gson().fromJson(sortedCensusData, UsCSVData[].class);
+            Assert.assertEquals("AK", stateCensuses[0].stateId);
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
+        } catch (StateCensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUSStateCensusData_WhenSortedOnStateCode_ShouldReturnSortedList_2() {
+        try {
+            usCensusAnalyser.loadCensusData(US,usCensusCsvData);
+            String sortedCensusData = usCensusAnalyser.getSortedCensusData(StateCensusAnalyser.SortingMode.STATECODE);
+            UsCSVData[] stateCensuses = new Gson().fromJson(sortedCensusData, UsCSVData[].class);
+            Assert.assertEquals("WY", stateCensuses[50].stateId);
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
+        } catch (StateCensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUSStateCensusData_WhenReturnsNullStateCode_ShouldThrowException() {
+        try {
+            String sortedCensusData = usCensusAnalyser.getSortedCensusData(StateCensusAnalyser.SortingMode.STATECODE);
+            UsCSVData[] stateCensuses = new Gson().fromJson(sortedCensusData, UsCSVData[].class);
+        } catch (StateCensusAnalyserException e) {
+            Assert.assertEquals("No Census Data", e.getMessage());
+        }
+    }
 }
