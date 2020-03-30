@@ -1,8 +1,8 @@
 package com.bridgelabz.adaptor;
 
 import com.bridgelabz.dao.CensusDAO;
-import com.bridgelabz.model.CSVStateCensus;
-import com.bridgelabz.model.UsCSVData;
+import com.bridgelabz.dto.IndiaCensusCSV;
+import com.bridgelabz.dto.USCensusCSV;
 import com.bridgelabz.utility.CSVBuilderException;
 import com.bridgelabz.utility.CSVBuilderFactory;
 import com.bridgelabz.utility.ICSVBuilder;
@@ -27,13 +27,13 @@ public abstract class CensusAdapter {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<E> csvFileIterator = csvBuilder.getCSVFileIterator(reader, censusCSVClass);
             Iterable<E> csvStateCensusIterable = () -> csvFileIterator;
-            if (censusCSVClass.getName().equals("com.bridgelabz.model.CSVStateCensus"))
+            if (censusCSVClass.getName().equals("com.bridgelabz.dto.IndiaCensusCSV"))
                 StreamSupport.stream(csvStateCensusIterable.spliterator(), false)
-                        .map(CSVStateCensus.class::cast)
+                        .map(IndiaCensusCSV.class::cast)
                         .forEach(CSVStateCensus -> censusDAOMap.put(CSVStateCensus.state, new CensusDAO(CSVStateCensus)));
-            if (censusCSVClass.getName().equals("com.bridgelabz.model.UsCSVData"))
+            if (censusCSVClass.getName().equals("com.bridgelabz.dto.USCensusCSV"))
                 StreamSupport.stream(csvStateCensusIterable.spliterator(), false)
-                        .map(UsCSVData.class::cast)
+                        .map(USCensusCSV.class::cast)
                         .forEach(UsCSVData -> censusDAOMap.put(UsCSVData.state, new CensusDAO(UsCSVData)));
             return censusDAOMap;
         } catch (IOException e) {

@@ -1,10 +1,10 @@
-package com.bridgelabz.model;
+package com.bridgelabz.dto;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class CSVStateCensus extends CSVStateCode {
+public class IndiaCensusCSV extends IndiaStateCodeCSV {
 
-    public CSVStateCensus(){ }
+    public IndiaCensusCSV(){ }
 
     //BINDING THE COLUMN NAME IN CsvBindByName CLASS
     @CsvBindByName(column = "State", required = true)
@@ -21,7 +21,7 @@ public class CSVStateCensus extends CSVStateCode {
 
     public String stateCode = super.StateCode;
 
-    public CSVStateCensus(String state, String stateCode, Integer population, Double areaInSqKm, Double densityPerSqKm) {
+    public IndiaCensusCSV(String state, String stateCode, Integer population, Double areaInSqKm, Double densityPerSqKm) {
         this.stateCode = stateCode;
         this.state = state;
         this.areaInSqKm = areaInSqKm;

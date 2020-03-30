@@ -1,10 +1,10 @@
-package com.bridgelabz.model;
+package com.bridgelabz.dto;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class CSVStateCode {
+public class IndiaStateCodeCSV {
 
-    public CSVStateCode() { }
+    public IndiaStateCodeCSV() { }
     @CsvBindByName(column = "SrNo")
     public Integer SrNo;
 
